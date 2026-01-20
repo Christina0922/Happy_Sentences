@@ -1,36 +1,182 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Happy Sentences
 
-## Getting Started
+**행복을 주는 문장**을 만들어주는 웹 애플리케이션입니다.
 
-First, run the development server:
+단어 하나만 적어도 됩니다. 오늘의 마음을 그대로 적으면, 행복과 안정을 주는 문장 3개와 낭독용 문장 1개를 생성합니다.
+
+## 주요 기능
+
+### 🎯 핵심 기능
+- **입력 1박스**: 단어/문장/기분/상황을 자유롭게 입력
+- **문장 3개 생성**: 다정한 한 줄, 현실 정리 한 줄, 용기 한 줄
+- **낭독용 문장**: 호흡과 쉼표를 고려한 1개 문장
+- **무료 낭독**: Web Speech API를 사용한 기본 TTS
+
+### 💾 저장 & 관리
+- **하루 1문장 저장**: 매일 하나의 문장만 저장 가능
+- **보관함**: 날짜별로 저장된 문장 확인
+- **즐겨찾기**: 마음에 드는 문장 표시
+- **연속 재생**: 최근 7개 또는 즐겨찾기 문장을 연속으로 읽기
+
+### 🎨 UX 원칙
+- **미니멀 디자인**: 불필요한 요소 제거
+- **단순한 인터페이스**: 사용자가 선택/분류할 필요 없음
+- **담백한 톤**: 종교/영성/의료 조언 배제
+- **한국어 우선**: 모든 UI는 한국어로 제공
+
+## 시작하기
+
+### 1. 환경 설정
+
+#### 필수 요구사항
+- Node.js 18.17 이상
+- npm 또는 yarn
+- OpenAI API Key
+
+#### 패키지 설치
+```bash
+npm install
+```
+
+### 2. 환경변수 설정
+
+프로젝트 루트에 `.env.local` 파일을 생성하고 OpenAI API Key를 추가하세요:
+
+```env
+OPENAI_API_KEY=your_openai_api_key_here
+```
+
+> ⚠️ `.env.local` 파일은 절대 Git에 커밋하지 마세요!
+
+### 3. 개발 서버 실행
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+브라우저에서 [http://localhost:3000](http://localhost:3000)을 열어 확인하세요.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### 4. 프로덕션 빌드
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+npm run build
+npm start
+```
 
-## Learn More
+## 프로젝트 구조
 
-To learn more about Next.js, take a look at the following resources:
+```
+happy_sentences/
+├── app/
+│   ├── page.tsx                 # 홈 페이지 (입력 + 결과)
+│   ├── library/
+│   │   └── page.tsx            # 보관함 페이지
+│   ├── api/
+│   │   └── generate/
+│   │       └── route.ts        # 문장 생성 API
+│   ├── layout.tsx              # 루트 레이아웃
+│   └── globals.css             # 전역 스타일
+├── components/
+│   ├── Composer.tsx            # 입력 박스 컴포넌트
+│   ├── ResultCards.tsx         # 결과 카드 3개
+│   └── NarrationBar.tsx        # 낭독 컨트롤
+├── lib/
+│   ├── schema.ts               # Zod 스키마 & 타입
+│   ├── generate.ts             # API 호출 함수
+│   ├── storage.ts              # localStorage CRUD
+│   ├── tts.ts                  # Web Speech API 래퍼
+│   └── share.ts                # 공유 기능
+└── .env.local                  # 환경변수 (직접 생성 필요)
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 사용 방법
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### 1. 문장 만들기
+1. 홈 화면의 입력 박스에 단어나 문장을 입력
+2. "행복문장 만들기" 버튼 클릭
+3. 3개의 문장과 낭독용 문장 1개가 생성됨
 
-## Deploy on Vercel
+### 2. 문장 저장하기
+- 각 카드의 "저장" 버튼을 클릭
+- **하루에 1개만 저장** 가능 (교체는 가능)
+- 저장한 문장은 보관함에서 확인
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### 3. 낭독 듣기
+- **개별 읽기**: 각 카드의 "읽기" 버튼
+- **전체 읽기**: 홈의 "읽어주기" 버튼 (3개 + 낭독용 순서대로)
+- **연속 재생**: 보관함의 "연속 재생" (최근 7개 또는 즐겨찾기)
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### 4. 공유하기
+- "공유" 버튼 클릭
+- Web Share API 지원 시 → 공유 시트 표시
+- 미지원 시 → 자동으로 클립보드 복사
+
+### 5. 보관함 관리
+- 홈 우측 상단 "보관함" 클릭
+- **전체/즐겨찾기** 필터로 보기
+- ⭐ 아이콘 클릭으로 즐겨찾기 토글
+- 문장 삭제 가능
+
+## 기술 스택
+
+- **프레임워크**: Next.js 15 (App Router)
+- **언어**: TypeScript
+- **스타일링**: Tailwind CSS
+- **검증**: Zod
+- **AI**: OpenAI GPT-4o-mini
+- **TTS**: Web Speech API (무료 기본)
+- **저장소**: localStorage (서버리스 MVP)
+
+## 프롬프트 설계
+
+### 출력 형식
+모든 응답은 JSON으로 반환:
+
+```json
+{
+  "summary": "선택적 요약",
+  "lines": {
+    "gentle": "다정한 한 줄",
+    "clear": "현실 정리 한 줄",
+    "brave": "용기 한 줄"
+  },
+  "narration": "낭독용 문장",
+  "keywords": ["키워드1", "키워드2"],
+  "safety": {
+    "noReligion": true,
+    "noMedical": true
+  }
+}
+```
+
+### 안전장치
+- 종교/영성 표현 금지
+- 의료/진단 조언 금지
+- 과한 단정 금지
+- 뻔한 위로 금지
+
+## 에러 처리
+
+### API 오류
+- JSON 파싱 실패 시 자동 1회 재시도
+- 재시도 실패 시 사용자 친화적 메시지 표시
+
+### 입력 검증
+- 빈 입력: "단어 하나만 적어도 됩니다."
+- 너무 긴 입력(1000자+): "내용을 조금만 짧게 적어주세요."
+
+### 저장 제한
+- 하루 1개 저장 제한 적용
+- 교체 저장 시 명확한 안내 제공
+
+## 라이선스
+
+MIT License
+
+## 기여
+
+이슈와 PR을 환영합니다!
+
+---
+
+**Happy Sentences**로 오늘도 행복한 하루 되세요 ✨
