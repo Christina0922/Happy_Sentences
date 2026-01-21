@@ -96,6 +96,12 @@ export interface Translations {
   voiceInputNoSpeech: string;
   voiceInputError: string;
   voiceInputSuccess: string;
+
+  // Ad Pass
+  adWatchFailed: string;
+  adPassGranted: string;
+  adPassExpired: string;
+  adPassRemaining: string;
 }
 
 export const translations: Record<Language, Translations> = {
@@ -195,6 +201,12 @@ export const translations: Record<Language, Translations> = {
     voiceInputNoSpeech: '음성이 감지되지 않았습니다. 다시 시도해주세요.',
     voiceInputError: '음성 인식 중 오류가 발생했습니다.',
     voiceInputSuccess: '음성 인식 완료!',
+
+    // Ad Pass
+    adWatchFailed: '광고 시청에 실패했습니다.',
+    adPassGranted: '광고 시청으로 30분 무료 이용권이 지급되었습니다!',
+    adPassExpired: '광고 시청 무료 이용권이 만료되었습니다.',
+    adPassRemaining: '남은 시간: ',
   },
   en: {
     // Header
@@ -292,6 +304,12 @@ export const translations: Record<Language, Translations> = {
     voiceInputNoSpeech: 'No speech detected. Please try again.',
     voiceInputError: 'An error occurred during speech recognition.',
     voiceInputSuccess: 'Speech recognized!',
+
+    // Ad Pass
+    adWatchFailed: 'Failed to watch ad.',
+    adPassGranted: '30 minutes free pass granted after watching ad!',
+    adPassExpired: 'Ad pass expired.',
+    adPassRemaining: 'Time remaining: ',
   },
 };
 
