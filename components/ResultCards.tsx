@@ -27,27 +27,24 @@ const VARIANT_TO_CARD_TYPE: Record<Variant, CardType> = {
 
 const VARIANT_COLORS: Record<
   Variant,
-  { bgColor: string; borderColor: string; gradientFrom: string; gradientTo: string; emoji: string }
+  { bgColor: string; borderColor: string; textColor: string; emoji: string }
 > = {
   gentle: {
-    bgColor: 'bg-gradient-to-br from-pink-100/80 to-rose-100/80',
-    borderColor: 'border-pink-200',
-    gradientFrom: 'from-pink-400',
-    gradientTo: 'to-rose-400',
+    bgColor: 'bg-rose-50/50',
+    borderColor: 'border-gray-200',
+    textColor: 'text-gray-700',
     emoji: '💕',
   },
   clear: {
-    bgColor: 'bg-gradient-to-br from-blue-100/80 to-sky-100/80',
-    borderColor: 'border-blue-200',
-    gradientFrom: 'from-blue-400',
-    gradientTo: 'to-sky-400',
+    bgColor: 'bg-blue-50/50',
+    borderColor: 'border-gray-200',
+    textColor: 'text-gray-700',
     emoji: '✨',
   },
   brave: {
-    bgColor: 'bg-gradient-to-br from-green-100/80 to-emerald-100/80',
-    borderColor: 'border-green-200',
-    gradientFrom: 'from-green-400',
-    gradientTo: 'to-emerald-400',
+    bgColor: 'bg-green-50/50',
+    borderColor: 'border-gray-200',
+    textColor: 'text-gray-700',
     emoji: '🌟',
   },
 };
@@ -250,21 +247,19 @@ export default function ResultCards({ result, onSaveSuccess }: ResultCardsProps)
     return (
       <div
         key={variant}
-        className={`p-8 rounded-3xl border-2 ${colors.bgColor} ${colors.borderColor} 
-                   backdrop-blur-sm shadow-xl hover:shadow-2xl transition-all duration-300 
-                   animate-slide-up transform hover:scale-105`}
+        className={`p-6 rounded-2xl border ${colors.bgColor} ${colors.borderColor} 
+                   transition-all duration-200 animate-slide-up`}
       >
-        <div className="mb-4 flex items-center gap-2">
-          <span className="text-2xl">{colors.emoji}</span>
-          <span className={`text-sm font-semibold bg-gradient-to-r ${colors.gradientFrom} ${colors.gradientTo} bg-clip-text text-transparent`}>
+        <div className="mb-3 flex items-center gap-2">
+          <span className="text-lg">{colors.emoji}</span>
+          <span className={`text-sm font-medium ${colors.textColor}`}>
             {label}
           </span>
         </div>
 
         <p
-          className="text-xl text-gray-800 mb-6 font-medium"
+          className="text-base text-gray-800 mb-5 leading-relaxed"
           style={{
-            lineHeight: '1.8',
             letterSpacing: '-0.01em',
           }}
         >
@@ -274,29 +269,29 @@ export default function ResultCards({ result, onSaveSuccess }: ResultCardsProps)
         <div className="flex gap-2">
           <button
             onClick={() => handleSave(variant, text)}
-            className="flex-1 py-3 px-4 text-sm font-medium text-white 
-                     bg-gradient-to-r from-purple-400 to-pink-400 rounded-full 
-                     hover:from-purple-500 hover:to-pink-500 transition-all duration-300 shadow-md hover:shadow-lg"
+            className="flex-1 h-10 px-4 text-sm font-medium text-white 
+                     bg-gray-800 hover:bg-gray-900 rounded-2xl 
+                     transition-colors duration-200"
           >
             {t.saveButton}
           </button>
 
           <button
             onClick={() => handleShare(text)}
-            className="flex-1 py-3 px-4 text-sm font-medium text-white 
-                     bg-gradient-to-r from-blue-400 to-cyan-400 rounded-full 
-                     hover:from-blue-500 hover:to-cyan-500 transition-all duration-300 shadow-md hover:shadow-lg"
+            className="flex-1 h-10 px-4 text-sm font-medium text-gray-700 
+                     bg-white hover:bg-gray-50 rounded-2xl border border-gray-200
+                     transition-colors duration-200"
           >
             {t.shareButton}
           </button>
 
           <button
             onClick={() => handleRead(variant, text)}
-            className={`flex-1 py-3 px-4 text-sm font-medium rounded-full transition-all duration-300 shadow-md hover:shadow-lg
+            className={`flex-1 h-10 px-4 text-sm font-medium rounded-2xl transition-colors duration-200
                      ${
                        isPlaying
-                         ? 'bg-gradient-to-r from-orange-500 to-red-500 text-white animate-pulse'
-                         : 'bg-white/90 text-gray-700 hover:bg-white border-2 border-gray-200'
+                         ? 'bg-red-500 text-white'
+                         : 'bg-white text-gray-700 hover:bg-gray-50 border border-gray-200'
                      }`}
           >
             {isPlaying ? t.stopButton : t.readButtonShort}
@@ -310,18 +305,17 @@ export default function ResultCards({ result, onSaveSuccess }: ResultCardsProps)
     <div className="w-full max-w-2xl mx-auto px-4">
       {/* 메시지 알림 */}
       {message && (
-        <div className="mb-4 p-4 bg-gradient-to-r from-purple-500 to-pink-500 text-white text-center rounded-2xl animate-fade-in shadow-lg">
-          <span className="text-lg">✨ {message}</span>
+        <div className="mb-4 p-3 bg-gray-800 text-white text-center rounded-2xl animate-fade-in">
+          <span className="text-sm">{message}</span>
         </div>
       )}
 
       {/* 요약 (선택) */}
       {result.summary && (
-        <div className="mb-6 p-6 bg-white/60 backdrop-blur-sm rounded-3xl border-2 border-pink-200 shadow-lg">
+        <div className="mb-6 p-5 bg-white rounded-2xl border border-gray-200">
           <p
-            className="text-base text-gray-700"
+            className="text-sm text-gray-700 leading-relaxed"
             style={{
-              lineHeight: '1.8',
               letterSpacing: '-0.01em',
             }}
           >

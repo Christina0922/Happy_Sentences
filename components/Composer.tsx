@@ -233,10 +233,10 @@ export default function Composer({
             placeholder={t.inputPlaceholder}
             disabled={isLoading}
             rows={6}
-            className="w-full px-6 py-5 text-lg bg-white/80 backdrop-blur-sm border-2 border-pink-200 rounded-3xl 
-                     focus:border-pink-400 focus:ring-4 focus:ring-pink-100 focus:outline-none resize-none
-                     disabled:bg-gray-50 disabled:text-gray-400 transition-all duration-300
-                     placeholder:text-gray-400 shadow-lg hover:shadow-xl"
+            className="w-full px-6 py-4 text-base bg-white border border-gray-200 rounded-2xl 
+                     focus:border-gray-300 focus:ring-2 focus:ring-gray-100 focus:outline-none resize-none
+                     disabled:bg-gray-50 disabled:text-gray-400 transition-colors
+                     placeholder:text-gray-400"
             style={{
               lineHeight: '1.7',
               letterSpacing: '-0.02em',
@@ -251,22 +251,23 @@ export default function Composer({
           )}
         </div>
 
-        {/* 버튼 그룹 */}
-        <div className="flex gap-3">
+        {/* 버튼 그룹: 2행 레이아웃 */}
+        <div className="space-y-3">
+          {/* Row 1: Primary 버튼 (행복문장 만들기) */}
           <button
             type="submit"
             disabled={isLoading || !input.trim()}
-            className={`flex-1 py-4 px-6 text-base font-medium text-white 
-                     bg-gradient-to-r from-pink-500 via-orange-400 to-purple-500 
-                     rounded-full hover:from-pink-600 hover:via-orange-500 hover:to-purple-600
-                     disabled:from-gray-300 disabled:to-gray-400
-                     disabled:cursor-not-allowed transition-all duration-300 shadow-lg hover:shadow-xl
-                     ${shouldHighlightCreate ? 'animate-bounce-subtle ring-4 ring-purple-300' : ''}`}
+            className={`w-full h-12 px-6 text-base font-semibold text-white 
+                     bg-gray-800 hover:bg-gray-900
+                     rounded-2xl
+                     disabled:bg-gray-300 disabled:cursor-not-allowed 
+                     transition-colors duration-200
+                     ${shouldHighlightCreate ? 'ring-2 ring-gray-400 ring-offset-2' : ''}`}
           >
             {isLoading ? (
               <span className="flex items-center justify-center gap-2">
                 <svg
-                  className="animate-spin h-5 w-5"
+                  className="animate-spin h-4 w-4"
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
                   viewBox="0 0 24 24"
@@ -292,61 +293,49 @@ export default function Composer({
             )}
           </button>
 
-          {/* 음성 입력 버튼 */}
-          <button
-            type="button"
-            onClick={handleVoiceInput}
-            disabled={isLoading || !recognition.isAvailable()}
-            className={`py-4 px-6 text-base font-medium rounded-full transition-all duration-300 shadow-lg hover:shadow-xl
-                     ${recognitionState === 'listening' 
-                       ? 'bg-gradient-to-r from-red-400 to-pink-500 text-white animate-pulse' 
-                       : recognitionState === 'processing'
-                       ? 'bg-gradient-to-r from-blue-400 to-purple-500 text-white'
-                       : 'text-gray-700 bg-white/80 backdrop-blur-sm hover:bg-white border-2 border-pink-200'
-                     }
-                     disabled:bg-gray-100 disabled:text-gray-400 disabled:cursor-not-allowed disabled:border-gray-200`}
-            title={!recognition.isAvailable() ? t.voiceInputNotSupported : ''}
-          >
-            {recognitionState === 'listening' ? (
-              <span className="flex items-center gap-2">
-                <svg className="w-5 h-5 animate-pulse" fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M7 4a3 3 0 016 0v4a3 3 0 11-6 0V4zm4 10.93A7.001 7.001 0 0017 8a1 1 0 10-2 0A5 5 0 015 8a1 1 0 00-2 0 7.001 7.001 0 006 6.93V17H6a1 1 0 100 2h8a1 1 0 100-2h-3v-2.07z" clipRule="evenodd" />
-                </svg>
-                {getVoiceButtonText()}
-              </span>
-            ) : (
-              <span className="flex items-center gap-2">
-                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M7 4a3 3 0 016 0v4a3 3 0 11-6 0V4zm4 10.93A7.001 7.001 0 0017 8a1 1 0 10-2 0A5 5 0 015 8a1 1 0 00-2 0 7.001 7.001 0 006 6.93V17H6a1 1 0 100 2h8a1 1 0 100-2h-3v-2.07z" clipRule="evenodd" />
-                </svg>
-                {getVoiceButtonText()}
-              </span>
-            )}
-          </button>
-
-          <button
-            type="button"
-            onClick={handleReadClick}
-            disabled={!hasResult || isLoading}
-            className="py-4 px-6 text-base font-medium text-gray-700 bg-gray-100 
-                     rounded-xl hover:bg-gray-200 disabled:bg-gray-100 
-                     disabled:text-gray-400 disabled:cursor-not-allowed transition-colors"
-          >
-            {t.readButton}
-          </button>
-
-          {input && (
+          {/* Row 2: Secondary 버튼들 */}
+          <div className="flex gap-3">
+            {/* 음성 입력 버튼 */}
             <button
               type="button"
-              onClick={handleReset}
-              disabled={isLoading}
-              className="py-4 px-6 text-base font-medium text-gray-500 bg-white 
-                       border-2 border-gray-200 rounded-xl hover:bg-gray-50 
-                       disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+              onClick={handleVoiceInput}
+              disabled={isLoading || !recognition.isAvailable()}
+              className={`flex-1 h-12 px-4 text-sm font-medium rounded-2xl transition-colors duration-200
+                       ${recognitionState === 'listening' 
+                         ? 'bg-red-500 text-white' 
+                         : recognitionState === 'processing'
+                         ? 'bg-blue-500 text-white'
+                         : 'text-gray-700 bg-white hover:bg-gray-50 border border-gray-200'
+                       }
+                       disabled:bg-gray-100 disabled:text-gray-400 disabled:cursor-not-allowed disabled:border-gray-200`}
+              title={!recognition.isAvailable() ? t.voiceInputNotSupported : ''}
             >
-              {t.resetButton}
+              <span className="flex items-center justify-center gap-2">
+                <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                  <path fillRule="evenodd" d="M7 4a3 3 0 016 0v4a3 3 0 11-6 0V4zm4 10.93A7.001 7.001 0 0017 8a1 1 0 10-2 0A5 5 0 015 8a1 1 0 00-2 0 7.001 7.001 0 006 6.93V17H6a1 1 0 100 2h8a1 1 0 100-2h-3v-2.07z" clipRule="evenodd" />
+                </svg>
+                <span className="hidden sm:inline">{getVoiceButtonText()}</span>
+              </span>
             </button>
-          )}
+
+            {/* 읽기 버튼 */}
+            <button
+              type="button"
+              onClick={handleReadClick}
+              disabled={!hasResult || isLoading}
+              className="flex-1 h-12 px-4 text-sm font-medium text-gray-700 bg-white hover:bg-gray-50
+                       rounded-2xl border border-gray-200
+                       disabled:bg-gray-50 disabled:text-gray-400 disabled:cursor-not-allowed 
+                       transition-colors duration-200"
+            >
+              <span className="flex items-center justify-center gap-2">
+                <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                  <path d="M18 3a1 1 0 00-1.196-.98l-10 2A1 1 0 006 5v9.114A4.369 4.369 0 005 14c-1.657 0-3 .895-3 2s1.343 2 3 2 3-.895 3-2V7.82l8-1.6v5.894A4.37 4.37 0 0015 12c-1.657 0-3 .895-3 2s1.343 2 3 2 3-.895 3-2V3z" />
+                </svg>
+                <span className="hidden sm:inline">{t.readButton}</span>
+              </span>
+            </button>
+          </div>
         </div>
       </form>
 
