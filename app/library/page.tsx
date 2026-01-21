@@ -128,8 +128,8 @@ export default function LibraryPage() {
     <div className="min-h-screen">
       {/* 헤더 */}
       <header className="py-6 px-4 bg-white/80 backdrop-blur-sm border-b border-gray-100">
-        <div className="max-w-3xl mx-auto flex items-center justify-between">
-          <div>
+        <div className="max-w-3xl mx-auto flex items-center justify-between gap-4">
+          <div className="flex-1 min-w-0">
             <h1 className="text-2xl font-semibold text-gray-800">
               📚 {t.libraryTitle}
             </h1>
@@ -137,12 +137,15 @@ export default function LibraryPage() {
               {t.savedCount} {sentences.length}{language === 'kr' ? '개' : ''}
             </p>
           </div>
-          <div className="flex items-center gap-3">
+          
+          {/* 모바일: 2줄 레이아웃, 데스크톱: 1줄 레이아웃 */}
+          <div className="flex flex-col sm:flex-row items-end sm:items-center gap-2 sm:gap-3 flex-shrink-0">
             <LanguageToggle />
             <Link
               href="/"
               className="py-2 px-4 text-sm font-medium text-gray-700 bg-white hover:bg-gray-50
-                       rounded-2xl border border-gray-200 transition-colors duration-200"
+                       rounded-2xl border border-gray-200 transition-colors duration-200
+                       whitespace-nowrap flex-shrink-0"
             >
               {t.homeButton}
             </Link>
