@@ -78,9 +78,6 @@ export default function TtsModal({
               <h2 className="text-2xl font-bold text-gray-900">
                 {t.ttsModalTitle}
               </h2>
-              <p className="text-sm text-gray-500 mt-1">
-                {t.ttsModalSubtitle}
-              </p>
             </div>
 
             {/* 옵션 */}
@@ -96,12 +93,9 @@ export default function TtsModal({
                       <span className="text-lg font-semibold text-gray-900">
                         {t.ttsBasicTitle}
                       </span>
-                      <span className="text-xs font-medium text-green-600 bg-green-50 px-2 py-0.5 rounded">
-                        {t.ttsFree}
-                      </span>
                     </div>
                     <p className="text-sm text-gray-600">
-                      {t.ttsBasicDescription}
+                      {t.ttsBasicDesc}
                     </p>
                   </div>
                   <svg className="w-6 h-6 text-gray-400 flex-shrink-0 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -125,18 +119,14 @@ export default function TtsModal({
                       <span className="text-lg font-semibold text-gray-900">
                         {t.ttsPremiumTitle}
                       </span>
-                      {isPremiumAllowed ? (
-                        <span className="text-xs font-medium text-purple-600 bg-purple-100 px-2 py-0.5 rounded">
-                          {DEV_BYPASS ? t.ttsDevMode : t.ttsAvailable}
-                        </span>
-                      ) : (
+                      {!isPremiumAllowed && (
                         <svg className="w-5 h-5 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
                           <path fillRule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clipRule="evenodd" />
                         </svg>
                       )}
                     </div>
                     <p className="text-sm text-gray-600">
-                      {t.ttsPremiumDescription}
+                      {isPremiumAllowed ? t.ttsPremiumDesc : t.ttsPremiumLockedDesc}
                     </p>
                   </div>
                   <svg className="w-6 h-6 text-purple-500 flex-shrink-0 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -146,24 +136,16 @@ export default function TtsModal({
               </button>
             </div>
 
-            {/* 크레딧/구독 상태 표시 */}
-            {entitlement.credits !== undefined && entitlement.credits > 0 && (
-              <div className="mt-4 p-3 bg-blue-50 border border-blue-200 rounded-lg">
-                <p className="text-sm text-blue-900">
-                  💎 {t.ttsCreditsRemaining}: {entitlement.credits}
-                </p>
-              </div>
-            )}
           </>
         ) : (
           <>
             {/* Paywall */}
             <div className="mb-6">
               <h2 className="text-2xl font-bold text-gray-900">
-                {t.ttsPaywallTitle}
+                {t.ttsPremiumTitle}
               </h2>
               <p className="text-sm text-gray-600 mt-2">
-                {t.ttsPaywallDescription}
+                {t.ttsPremiumLockedDesc}
               </p>
             </div>
 
@@ -176,28 +158,20 @@ export default function TtsModal({
                 📺 {t.ttsWatchAd}
               </button>
 
-              {/* 구독하기 */}
+              {/* 구독/결제 */}
               <button
-                onClick={() => alert(t.ttsSubscribeComingSoon)}
+                onClick={() => alert('Coming soon!')}
                 className="w-full p-4 bg-gradient-to-r from-purple-500 to-pink-500 text-white font-semibold rounded-xl hover:from-purple-600 hover:to-pink-600 transition-all"
               >
                 ⭐ {t.ttsSubscribe}
               </button>
 
-              {/* 크레딧 구매 */}
-              <button
-                onClick={() => alert(t.ttsBuyCreditsComingSoon)}
-                className="w-full p-4 bg-gray-900 text-white font-semibold rounded-xl hover:bg-gray-800 transition-all"
-              >
-                💎 {t.ttsBuyCredits}
-              </button>
-
-              {/* 돌아가기 */}
+              {/* 닫기 */}
               <button
                 onClick={() => setShowPaywall(false)}
                 className="w-full p-2 text-gray-600 hover:text-gray-900 transition-colors"
               >
-                {t.ttsBack}
+                {t.ttsClose}
               </button>
             </div>
           </>
