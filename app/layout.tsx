@@ -39,7 +39,7 @@ export default function RootLayout({
       >
         <Providers>
           <TtsInitializer />
-          {children}
+        {children}
           <DevTtsPanel />
         </Providers>
       </body>

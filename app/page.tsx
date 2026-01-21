@@ -93,14 +93,14 @@ export default function Home() {
           {/* 모바일: 2줄 레이아웃, 데스크톱: 1줄 레이아웃 */}
           <div className="flex flex-col sm:flex-row items-end sm:items-center gap-2 sm:gap-3 flex-shrink-0">
             <LanguageToggle />
-            <Link
-              href="/library"
+          <Link
+            href="/library"
               className="py-2 px-4 text-sm font-medium text-gray-700 bg-white hover:bg-gray-50
                        rounded-2xl border border-gray-300 transition-colors duration-200
                        whitespace-nowrap flex-shrink-0"
-            >
+          >
               {t.libraryButton}
-            </Link>
+          </Link>
           </div>
         </div>
       </header>

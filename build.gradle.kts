@@ -1,6 +1,11 @@
-// Top-level build file where you can add configuration options common to all sub-projects/modules.
 plugins {
-    alias(libs.plugins.android.application) apply false
-    alias(libs.plugins.kotlin.android) apply false
-    alias(libs.plugins.kotlin.compose) apply false
+    // Android Gradle Plugin
+    id("com.android.application") version "8.5.2" apply false
+    id("com.android.library") version "8.5.2" apply false
+
+    // Kotlin 2.0.x
+    id("org.jetbrains.kotlin.android") version "2.0.21" apply false
+
+    // ✅ Kotlin 2.0부터 Compose 사용 시 필수
+    id("org.jetbrains.kotlin.plugin.compose") version "2.0.21" apply false
 }

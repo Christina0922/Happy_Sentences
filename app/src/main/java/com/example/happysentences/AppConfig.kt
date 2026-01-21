@@ -1,4 +1,6 @@
 package com.example.happysentences
+import com.example.happysentences.BuildConfig
+
 
 object AppConfig {
     /**

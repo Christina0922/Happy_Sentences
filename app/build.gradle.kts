@@ -1,91 +1,105 @@
+import java.io.FileInputStream
+import java.util.Properties
+
 plugins {
-    alias(libs.plugins.android.application)
-    alias(libs.plugins.kotlin.android)
-    alias(libs.plugins.kotlin.compose)
+    id("com.android.application")
+    id("org.jetbrains.kotlin.android")
+    // ✅ Kotlin 2.0 + Compose 필수 플러그인
+    id("org.jetbrains.kotlin.plugin.compose")
+}
+
+val keystorePropertiesFile = rootProject.file("keystore.properties")
+val keystoreProperties = Properties()
+
+if (keystorePropertiesFile.exists()) {
+    FileInputStream(keystorePropertiesFile).use { fis ->
+        keystoreProperties.load(fis)
+    }
 }
 
 android {
     namespace = "com.example.happysentences"
-    compileSdk = 36
+    compileSdk = 34
 
     defaultConfig {
         applicationId = "com.example.happysentences"
         minSdk = 24
-        targetSdk = 36
+        targetSdk = 34
+
         versionCode = 1
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        // ✅ BuildConfig에 값 생성(릴리즈 기본값)
+        buildConfigField("String", "BASE_URL", "\"https://happy-sentences.vercel.app\"")
+        buildConfigField("boolean", "IS_DEBUG", "false")
     }
 
-    // 🔐 Keystore 설정 로드
-    signingConfigs {
-        create("release") {
-            val keystorePropertiesFile = rootProject.file("keystore.properties")
-            if (keystorePropertiesFile.exists()) {
-                val keystoreProperties = java.util.Properties()
-                keystoreProperties.load(java.io.FileInputStream(keystorePropertiesFile))
-
-                storeFile = file(keystoreProperties["storeFile"] as String)
-                storePassword = keystoreProperties["storePassword"] as String
-                keyAlias = keystoreProperties["keyAlias"] as String
-                keyPassword = keystoreProperties["keyPassword"] as String
-            }
-        }
+    buildFeatures {
+        // ✅ BuildConfig 생성
+        buildConfig = true
+        // ✅ Compose 사용
+        compose = true
     }
 
     buildTypes {
         debug {
-            buildConfigField("String", "BASE_URL", "\"http://10.0.2.2:3000\"")
-            buildConfigField("Boolean", "IS_DEBUG", "true")
+            isMinifyEnabled = false
+            // ✅ debug 값 덮어쓰기
+            buildConfigField("String", "BASE_URL", "\"https://happy-sentences.vercel.app\"")
+            buildConfigField("boolean", "IS_DEBUG", "true")
         }
+
         release {
             isMinifyEnabled = false
-            buildConfigField("String", "BASE_URL", "\"https://happy-sentences.vercel.app\"")
-            buildConfigField("Boolean", "IS_DEBUG", "false")
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
-            // 🔐 Release 빌드에 서명 적용
-            signingConfig = signingConfigs.getByName("release")
         }
     }
+
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
+
     kotlinOptions {
-        jvmTarget = "11"
+        jvmTarget = "17"
     }
-    buildFeatures {
-        compose = true
-        buildConfig = true
+
+    packaging {
+        resources {
+            excludes += "/META-INF/{AL2.0,LGPL2.1}"
+        }
     }
 }
 
 dependencies {
-    // Core Android
-    implementation(libs.androidx.core.ktx)
-    implementation(libs.androidx.lifecycle.runtime.ktx)
-    
-    // Activity (WebView 사용을 위해 필요)
-    implementation("androidx.activity:activity-ktx:1.9.0")
-    
-    // Compose (기존 의존성 유지, 나중에 완전히 제거 가능)
-    implementation(libs.androidx.activity.compose)
-    implementation(platform(libs.androidx.compose.bom))
-    implementation(libs.androidx.ui)
-    implementation(libs.androidx.ui.graphics)
-    implementation(libs.androidx.ui.tooling.preview)
-    implementation(libs.androidx.material3)
-    
-    // Testing
-    testImplementation(libs.junit)
-    androidTestImplementation(libs.androidx.junit)
-    androidTestImplementation(libs.androidx.espresso.core)
-    androidTestImplementation(platform(libs.androidx.compose.bom))
-    androidTestImplementation(libs.androidx.ui.test.junit4)
-    debugImplementation(libs.androidx.ui.tooling)
-    debugImplementation(libs.androidx.ui.test.manifest)
+    // Compose를 쓰려면 activity-compose가 필요합니다.
+    implementation("androidx.activity:activity-compose:1.9.2")
+
+    // Compose BOM
+    implementation(platform("androidx.compose:compose-bom:2024.06.00"))
+    androidTestImplementation(platform("androidx.compose:compose-bom:2024.06.00"))
+
+    // Compose UI
+    implementation("androidx.compose.ui:ui")
+    implementation("androidx.compose.ui:ui-tooling-preview")
+
+    // Material3 (Theme.kt에서 흔히 사용)
+    implementation("androidx.compose.material3:material3")
+
+    // Debug tooling
+    debugImplementation("androidx.compose.ui:ui-tooling")
+    debugImplementation("androidx.compose.ui:ui-test-manifest")
+
+    // 기본
+    implementation("androidx.core:core-ktx:1.13.1")
+
+    // Test
+    testImplementation("junit:junit:4.13.2")
+    androidTestImplementation("androidx.test.ext:junit:1.2.1")
+    androidTestImplementation("androidx.test.espresso:espresso-core:3.6.1")
 }
