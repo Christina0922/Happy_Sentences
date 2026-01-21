@@ -52,6 +52,12 @@ local.properties
 *.apk
 *.aab
 
+# Keystore (중요: 절대 커밋하지 마세요!)
+*.keystore
+*.jks
+keystore.properties
+key.properties
+
 # Android Studio / IntelliJ
 .idea/
 *.iml
