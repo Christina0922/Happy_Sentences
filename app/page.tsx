@@ -46,7 +46,18 @@ export default function Home() {
         }
       }
     } catch (err) {
-      const errorMessage = err instanceof Error ? err.message : t.playFailed;
+      console.error('[Home] ❌ Generation failed:', err);
+      
+      // 네트워크 에러 체크
+      const isNetworkError = err instanceof Error && 
+        (err.message.includes('fetch') || err.message.includes('network'));
+      
+      const errorMessage = isNetworkError 
+        ? `${t.generateNetworkError}\n${t.generateError}`
+        : err instanceof Error 
+          ? `${t.generateError}\n${err.message}`
+          : t.generateError;
+      
       setError(errorMessage);
     } finally {
       setIsLoading(false);
@@ -111,7 +122,16 @@ export default function Home() {
           <section className="mb-8">
             <div className="max-w-2xl mx-auto px-4">
               <div className="p-5 bg-red-50 border border-red-200 rounded-xl">
-                <p className="text-red-800 text-center">{error}</p>
+                <p className="text-red-800 text-center mb-3">{error}</p>
+                <div className="flex justify-center">
+                  <button
+                    onClick={() => setError('')}
+                    className="px-4 py-2 text-sm font-medium text-red-700 bg-white hover:bg-red-100
+                             rounded-lg border border-red-300 transition-colors duration-200"
+                  >
+                    {t.generateRetry}
+                  </button>
+                </div>
               </div>
             </div>
           </section>
@@ -126,8 +146,8 @@ export default function Home() {
 
       </main>
 
-      {/* 푸터 */}
-      <footer className="py-8 mt-16 border-t border-gray-100">
+      {/* 푸터 - iOS safe-area 대응 */}
+      <footer className="py-8 mt-16 border-t border-gray-100" style={{ paddingBottom: 'calc(2rem + env(safe-area-inset-bottom))' }}>
         <div className="max-w-2xl mx-auto px-4 text-center">
           <p className="text-xs text-gray-400">
             {t.footerText}

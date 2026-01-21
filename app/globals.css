@@ -29,6 +29,9 @@ body {
   line-height: 1.7;
   letter-spacing: -0.02em;
   min-height: 100vh;
+  
+  /* 🆕 iOS safe-area 대응 */
+  padding-bottom: env(safe-area-inset-bottom);
 }
 
 /* 행복감을 주는 애니메이션 */

@@ -52,7 +52,9 @@ const VARIANT_COLORS: Record<
 export default function ResultCards({ result, onSaveSuccess }: ResultCardsProps) {
   const { t, language } = useLanguage();
   const [playingVariant, setPlayingVariant] = useState<Variant | null>(null);
+  const [savingVariant, setSavingVariant] = useState<Variant | null>(null); // 🆕 저장 중 상태
   const [message, setMessage] = useState('');
+  const [saveSuccess, setSaveSuccess] = useState(false); // 🆕 저장 성공 상태
   const [showTtsModal, setShowTtsModal] = useState(false);
   const [selectedText, setSelectedText] = useState<string>('');
   const [selectedVariant, setSelectedVariant] = useState<Variant | null>(null);
@@ -197,31 +199,46 @@ export default function ResultCards({ result, onSaveSuccess }: ResultCardsProps)
   };
 
   const handleSave = async (variant: Variant, text: string) => {
-    const todaySentence = getTodaySentence();
-
-    if (todaySentence) {
-      // 이미 오늘 저장한 문장이 있으면 교체 확인
-      const confirmed = confirm(t.saveTodayExists);
-
-      if (!confirmed) {
-        showMessage(t.saveCancelled);
-        return;
-      }
-
-      const result = replaceTodaySentence(text, variant);
-      showMessage(result.message);
+    // 🆕 저장 중 표시 시작
+    setSavingVariant(variant);
+    
+    try {
+      // 🆕 짧은 지연으로 로딩 표시가 보이도록
+      await new Promise(resolve => setTimeout(resolve, 100));
       
-      if (result.success) {
-        onSaveSuccess?.();
+      const todaySentence = getTodaySentence();
+
+      if (todaySentence) {
+        // 이미 오늘 저장한 문장이 있으면 교체 확인
+        const confirmed = confirm(t.saveTodayExists);
+
+        if (!confirmed) {
+          showMessage(t.saveCancelled);
+          return;
+        }
+
+        const result = replaceTodaySentence(text, variant);
+        showMessage(result.message);
+        
+        if (result.success) {
+          onSaveSuccess?.();
+        }
+      } else {
+        // 새로 저장
+        const result = saveSentence(text, variant);
+        
+        if (result.success) {
+          // 🆕 저장 성공 시 특별한 메시지 표시
+          setSaveSuccess(true);
+          setTimeout(() => setSaveSuccess(false), 5000); // 5초 후 자동 숨김
+          onSaveSuccess?.();
+        } else {
+          showMessage(result.message);
+        }
       }
-    } else {
-      // 새로 저장
-      const result = saveSentence(text, variant);
-      showMessage(result.message);
-      
-      if (result.success) {
-        onSaveSuccess?.();
-      }
+    } finally {
+      // 🆕 저장 완료 후 로딩 상태 해제
+      setSavingVariant(null);
     }
   };
 
@@ -270,12 +287,41 @@ export default function ResultCards({ result, onSaveSuccess }: ResultCardsProps)
         <div className="flex gap-2">
           <button
             onClick={() => handleSave(variant, text)}
-            className="flex-1 h-10 px-4 text-[14px] font-bold text-white 
-                     bg-gradient-to-r from-rose-400 to-rose-500 hover:from-rose-500 hover:to-rose-600
+            disabled={savingVariant === variant}
+            className={`flex-1 h-10 px-4 text-[14px] font-bold text-white 
                      rounded-[16px] shadow-sm hover:shadow-md
-                     transition-all duration-200"
+                     transition-all duration-200
+                     ${savingVariant === variant
+                       ? 'bg-gray-400 cursor-not-allowed'
+                       : 'bg-gradient-to-r from-rose-400 to-rose-500 hover:from-rose-500 hover:to-rose-600'
+                     }`}
           >
-            {t.saveButton}
+            {savingVariant === variant ? (
+              <span className="flex items-center justify-center gap-2">
+                <svg
+                  className="animate-spin h-4 w-4"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                >
+                  <circle
+                    className="opacity-25"
+                    cx="12"
+                    cy="12"
+                    r="10"
+                    strokeWidth="3"
+                  />
+                  <path
+                    className="opacity-75"
+                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                    fill="currentColor"
+                  />
+                </svg>
+                저장 중...
+              </span>
+            ) : (
+              t.saveButton
+            )}
           </button>
 
           <button
@@ -321,7 +367,26 @@ export default function ResultCards({ result, onSaveSuccess }: ResultCardsProps)
 
   return (
     <div className="w-full max-w-2xl mx-auto px-4">
-      {/* 메시지 알림 - 따뜻한 피드백 */}
+      {/* 저장 성공 메시지 - 보관함 링크 포함 */}
+      {saveSuccess && (
+        <div className="mb-4 p-4 bg-gradient-to-r from-rose-500 to-rose-600 text-white rounded-2xl animate-fade-in shadow-md">
+          <p className="text-sm font-medium text-center mb-3">
+            ✓ {t.saveSuccess}
+          </p>
+          <div className="flex justify-center">
+            <a
+              href="/library"
+              className="px-4 py-2 text-sm font-medium text-rose-600 bg-white hover:bg-rose-50
+                       rounded-lg transition-colors duration-200"
+              onClick={() => setSaveSuccess(false)}
+            >
+              {t.saveSuccessGoToLibrary}
+            </a>
+          </div>
+        </div>
+      )}
+      
+      {/* 일반 메시지 알림 */}
       {message && (
         <div className="mb-4 p-3 bg-gradient-to-r from-rose-500 to-rose-600 text-white text-center rounded-2xl animate-fade-in shadow-md">
           <span className="text-sm font-medium">{message}</span>

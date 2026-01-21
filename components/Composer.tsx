@@ -118,7 +118,8 @@ export default function Composer({
   // 음성 인식 토글
   const handleVoiceInput = () => {
     if (!recognition.isAvailable()) {
-      alert(t.voiceInputNotSupported);
+      // 🆕 더 친절한 안내 메시지
+      alert(`${t.voiceInputNotSupported}\n\n💡 Chrome, Safari, Edge 브라우저를 사용해보세요.`);
       return;
     }
 
@@ -183,13 +184,21 @@ export default function Composer({
         setRecognitionState('error');
         setInterimTranscript('');
         
-        // 사용자에게 에러 메시지 표시
+        // 🆕 사용자에게 명확하고 친절한 에러 메시지 표시
+        let userMessage = '';
         if (error.code === 'not-allowed') {
-          alert(t.voiceInputPermissionDenied);
+          userMessage = `${t.voiceInputPermissionDenied}\n\n📱 iOS: 설정 > Safari > 마이크\n🤖 Android: 설정 > 앱 > 브라우저 > 권한`;
         } else if (error.code === 'no-speech') {
-          alert(t.voiceInputNoSpeech);
+          userMessage = `${t.voiceInputNoSpeech}\n\n💡 마이크를 입에 가까이 대고 또렷하게 말해주세요.`;
+        } else if (error.code === 'aborted') {
+          // 사용자가 취소한 경우, 조용히 처리
+          userMessage = '';
         } else {
-          alert(error.userMessage || t.voiceInputError);
+          userMessage = `${error.userMessage || t.voiceInputError}\n\n💡 다시 시도하거나 문자로 입력해주세요.`;
+        }
+        
+        if (userMessage) {
+          alert(userMessage);
         }
         
         // 1초 후 idle 상태로 복귀
@@ -299,8 +308,8 @@ export default function Composer({
             )}
           </button>
 
-          {/* Row 2: Secondary 버튼들 */}
-          <div className="flex gap-3">
+          {/* Row 2: Secondary 버튼들 - iOS safe-area 대응 */}
+          <div className="flex gap-3" style={{ paddingBottom: 'max(12px, env(safe-area-inset-bottom))' }}>
             {/* 음성 입력 버튼 - 상태 피드백 개선 */}
             <button
               type="button"
@@ -313,8 +322,9 @@ export default function Composer({
                          ? 'bg-orange-500 text-white shadow-md border-2 border-orange-400'
                          : 'text-gray-800 bg-white hover:bg-rose-50 hover:border-rose-200 border border-gray-300 shadow-sm'
                        }
-                       disabled:bg-gray-100 disabled:text-gray-400 disabled:cursor-not-allowed disabled:border-gray-200 disabled:shadow-none`}
-              title={!recognition.isAvailable() ? t.voiceInputNotSupported : ''}
+                       disabled:bg-gray-100 disabled:text-gray-400 disabled:cursor-not-allowed disabled:border-gray-300 disabled:shadow-none`}
+              title={!recognition.isAvailable() ? `${t.voiceInputNotSupported} (Chrome, Safari, Edge 사용 권장)` : ''}
+              aria-label={!recognition.isAvailable() ? t.voiceInputNotSupported : getVoiceButtonText()}
             >
               <span className="flex items-center justify-center gap-2">
                 <svg className={`w-4 h-4 ${recognitionState === 'listening' ? 'animate-pulse' : ''}`} fill="currentColor" viewBox="0 0 20 20">

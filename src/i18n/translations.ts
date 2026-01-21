@@ -51,6 +51,8 @@ export interface Translations {
   // Messages
   saveTodayExists: string;
   saveCancelled: string;
+  saveSuccess: string;
+  saveSuccessGoToLibrary: string;
   readFailed: string;
   narrationFailed: string;
   playComplete: string;
@@ -99,6 +101,11 @@ export interface Translations {
   ttsGenericError: string;
   ttsCheckingVoices: string;
   ttsRetry: string;
+
+  // Generate Error Messages (생성 에러 안내)
+  generateError: string;
+  generateNetworkError: string;
+  generateRetry: string;
 }
 
 export const translations: Record<Language, Translations> = {
@@ -153,6 +160,8 @@ export const translations: Record<Language, Translations> = {
     // Messages
     saveTodayExists: '오늘 저장한 문장이 이미 있습니다.',
     saveCancelled: '저장이 취소되었습니다.',
+    saveSuccess: '보관함에 저장했어요!',
+    saveSuccessGoToLibrary: '보관함 보기',
     readFailed: '읽기에 실패했어요.',
     narrationFailed: '읽기 재생에 실패했어요.',
     playComplete: '연속 재생이 완료되었습니다.',
@@ -201,6 +210,11 @@ export const translations: Record<Language, Translations> = {
     ttsGenericError: '읽어주기에 실패했습니다. 다시 시도해주세요.',
     ttsCheckingVoices: '음성 확인 중...',
     ttsRetry: '다시 시도',
+
+    // Generate Error Messages (생성 에러 안내)
+    generateError: '문장 생성에 실패했어요. 다시 시도해주세요.',
+    generateNetworkError: '네트워크 연결을 확인해주세요.',
+    generateRetry: '다시 만들기',
   },
 
   en: {
@@ -254,6 +268,8 @@ export const translations: Record<Language, Translations> = {
     // Messages
     saveTodayExists: 'You already saved a sentence today.',
     saveCancelled: 'Save cancelled.',
+    saveSuccess: 'Saved to library!',
+    saveSuccessGoToLibrary: 'Go to library',
     readFailed: 'Failed to read aloud.',
     narrationFailed: 'Failed to play narration.',
     playComplete: 'Continuous play completed.',
@@ -302,5 +318,10 @@ export const translations: Record<Language, Translations> = {
     ttsGenericError: 'Failed to read aloud. Please try again.',
     ttsCheckingVoices: 'Checking voices...',
     ttsRetry: 'Retry',
+
+    // Generate Error Messages (생성 에러 안내)
+    generateError: 'Failed to generate sentences. Please try again.',
+    generateNetworkError: 'Please check your network connection.',
+    generateRetry: 'Try again',
   },
 };

@@ -18,6 +18,13 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Happy Sentences - 행복을 주는 문장",
   description: "단어 하나만 적어도 됩니다. 행복과 안정을 주는 문장 3개를 만들어드립니다.",
+  viewport: {
+    width: "device-width",
+    initialScale: 1,
+    maximumScale: 1,
+    userScalable: false,
+    viewportFit: "cover", // 🆕 iOS safe-area 지원
+  },
 };
 
 export default function RootLayout({

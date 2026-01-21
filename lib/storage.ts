@@ -84,7 +84,7 @@ export function saveSentence(
 
     return {
       success: true,
-      message: '오늘의 문장을 저장했어요.',
+      message: '보관함에 저장했어요!',
       sentence: newSentence,
     };
   } catch (error) {
@@ -133,7 +133,7 @@ export function replaceTodaySentence(
 
     return {
       success: true,
-      message: '오늘의 문장을 교체했어요.',
+      message: '보관함에 저장했어요! (교체됨)',
       sentence: updated,
     };
   } catch (error) {
