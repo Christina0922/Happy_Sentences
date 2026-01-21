@@ -114,16 +114,6 @@ export default function Home() {
             </section>
         )}
 
-        {/* 안내 문구 (결과 없을 때만) */}
-        {!result && !isLoading && (
-          <section className="mt-16">
-            <div className="max-w-2xl mx-auto px-4 text-center">
-              <p className="text-gray-400 text-sm">
-                {t.guideText}
-              </p>
-            </div>
-          </section>
-        )}
       </main>
 
       {/* 푸터 */}
