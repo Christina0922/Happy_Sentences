@@ -118,8 +118,8 @@ export default function Composer({
   // 음성 인식 토글
   const handleVoiceInput = () => {
     if (!recognition.isAvailable()) {
-      // 🆕 더 친절한 안내 메시지
-      alert(`${t.voiceInputNotSupported}\n\n💡 Chrome, Safari, Edge 브라우저를 사용해보세요.`);
+      // 쉬운 말로 즉시 안내
+      alert(`${t.voiceInputNotSupported}\n\n${t.voiceInputNotSupportedDetail}`);
       return;
     }
 
@@ -184,17 +184,20 @@ export default function Composer({
         setRecognitionState('error');
         setInterimTranscript('');
         
-        // 🆕 사용자에게 명확하고 친절한 에러 메시지 표시
+        // 쉬운 말로 간단히 안내
         let userMessage = '';
         if (error.code === 'not-allowed') {
-          userMessage = `${t.voiceInputPermissionDenied}\n\n📱 iOS: 설정 > Safari > 마이크\n🤖 Android: 설정 > 앱 > 브라우저 > 권한`;
+          // 권한 거부 - 설정 안내
+          userMessage = `${t.voiceInputPermissionDenied}\n\n${t.voiceInputPermissionDeniedDetail}`;
         } else if (error.code === 'no-speech') {
-          userMessage = `${t.voiceInputNoSpeech}\n\n💡 마이크를 입에 가까이 대고 또렷하게 말해주세요.`;
+          // 음성 미감지 - 사용 팁
+          userMessage = `${t.voiceInputNoSpeech}\n\n${t.voiceInputNoSpeechDetail}`;
         } else if (error.code === 'aborted') {
-          // 사용자가 취소한 경우, 조용히 처리
+          // 사용자가 취소 - 조용히 처리
           userMessage = '';
         } else {
-          userMessage = `${error.userMessage || t.voiceInputError}\n\n💡 다시 시도하거나 문자로 입력해주세요.`;
+          // 일반 에러 - 간단한 안내
+          userMessage = `${t.voiceInputError}\n\n다시 시도하거나 키보드로 입력해주세요`;
         }
         
         if (userMessage) {
@@ -323,7 +326,7 @@ export default function Composer({
                          : 'text-gray-800 bg-white hover:bg-rose-50 hover:border-rose-200 border border-gray-300 shadow-sm'
                        }
                        disabled:bg-gray-100 disabled:text-gray-400 disabled:cursor-not-allowed disabled:border-gray-300 disabled:shadow-none`}
-              title={!recognition.isAvailable() ? `${t.voiceInputNotSupported} (Chrome, Safari, Edge 사용 권장)` : ''}
+              title={!recognition.isAvailable() ? `${t.voiceInputNotSupported}\n${t.voiceInputNotSupportedDetail}` : ''}
               aria-label={!recognition.isAvailable() ? t.voiceInputNotSupported : getVoiceButtonText()}
             >
               <span className="flex items-center justify-center gap-2">

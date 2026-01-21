@@ -82,8 +82,11 @@ export interface Translations {
   voiceInputListening: string;
   voiceInputStop: string;
   voiceInputNotSupported: string;
+  voiceInputNotSupportedDetail: string;
   voiceInputPermissionDenied: string;
+  voiceInputPermissionDeniedDetail: string;
   voiceInputNoSpeech: string;
+  voiceInputNoSpeechDetail: string;
   voiceInputError: string;
   voiceInputSuccess: string;
 
@@ -190,10 +193,13 @@ export const translations: Record<Language, Translations> = {
     voiceInputButton: '말로 입력',
     voiceInputListening: '듣는 중...',
     voiceInputStop: '중지',
-    voiceInputNotSupported: '이 브라우저는 음성 인식을 지원하지 않습니다.',
-    voiceInputPermissionDenied: '마이크 권한이 필요합니다. 브라우저 설정에서 마이크 권한을 허용해 주세요.',
-    voiceInputNoSpeech: '말이 감지되지 않았습니다. 다시 시도해 주세요.',
-    voiceInputError: '음성 인식 중 오류가 발생했습니다.',
+    voiceInputNotSupported: '말로 입력이 안 돼요',
+    voiceInputNotSupportedDetail: '크롬이나 사파리에서 다시 해보세요',
+    voiceInputPermissionDenied: '마이크 권한이 필요해요',
+    voiceInputPermissionDeniedDetail: '설정에서 마이크를 켜주세요',
+    voiceInputNoSpeech: '말소리가 안 들렸어요',
+    voiceInputNoSpeechDetail: '마이크에 가까이 대고 또렷하게 말해주세요',
+    voiceInputError: '음성 인식에 실패했어요',
     voiceInputSuccess: '음성이 인식되었습니다!',
 
     // Ad Pass
@@ -298,10 +304,13 @@ export const translations: Record<Language, Translations> = {
     voiceInputButton: 'Speak',
     voiceInputListening: 'Listening...',
     voiceInputStop: 'Stop',
-    voiceInputNotSupported: 'Speech recognition is not supported in this browser.',
-    voiceInputPermissionDenied: 'Microphone permission is required. Please allow microphone access in browser settings.',
-    voiceInputNoSpeech: 'No speech detected. Please try again.',
-    voiceInputError: 'An error occurred during speech recognition.',
+    voiceInputNotSupported: 'Voice input not available',
+    voiceInputNotSupportedDetail: 'Try Chrome or Safari browser',
+    voiceInputPermissionDenied: 'Mic permission needed',
+    voiceInputPermissionDeniedDetail: 'Enable mic in settings',
+    voiceInputNoSpeech: 'No speech detected',
+    voiceInputNoSpeechDetail: 'Speak clearly near the microphone',
+    voiceInputError: 'Voice recognition failed',
     voiceInputSuccess: 'Speech recognized!',
 
     // Ad Pass
