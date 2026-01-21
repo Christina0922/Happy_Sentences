@@ -257,12 +257,12 @@ export default function Composer({
           <button
             type="submit"
             disabled={isLoading || !input.trim()}
-            className={`w-full h-12 px-6 text-[15px] font-bold 
-                     bg-gradient-to-r from-rose-400 to-rose-500 hover:from-rose-500 hover:to-rose-600
-                     text-white
-                     rounded-[18px] shadow-sm hover:shadow-md
-                     disabled:from-gray-400 disabled:to-gray-400 disabled:text-gray-700 disabled:cursor-not-allowed disabled:shadow-none
-                     transition-all duration-200
+            className={`w-full h-12 px-6 text-[15px] font-bold text-white
+                     rounded-[18px] transition-all duration-200
+                     ${isLoading || !input.trim()
+                       ? 'bg-gray-400 text-gray-700 cursor-not-allowed'
+                       : 'bg-gradient-to-r from-[#FB7185] to-[#F43F5E] hover:from-[#F43F5E] hover:to-[#E11D48] shadow-sm hover:shadow-md'
+                     }
                      ${shouldHighlightCreate ? 'ring-2 ring-rose-300 ring-offset-2' : ''}`}
           >
             {isLoading ? (
