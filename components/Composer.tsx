@@ -253,15 +253,18 @@ export default function Composer({
 
         {/* 버튼 그룹: 2행 레이아웃 */}
         <div className="space-y-3">
-          {/* Row 1: Primary 버튼 (행복문장 만들기) - 따뜻한 포인트 컬러 */}
+          {/* Row 1: Primary 버튼 (행복문장 만들기) - 항상 매력적인 rose 컬러 */}
           <button
             type="submit"
             disabled={isLoading || !input.trim()}
             className={`w-full h-12 px-6 text-[15px] font-bold text-white
-                     rounded-[18px] transition-all duration-200
+                     bg-gradient-to-r from-[#FB7185] to-[#F43F5E] 
+                     hover:from-[#F43F5E] hover:to-[#E11D48]
+                     rounded-[18px] shadow-sm hover:shadow-md
+                     transition-all duration-200
                      ${isLoading || !input.trim()
-                       ? 'bg-gray-400 text-gray-700 cursor-not-allowed'
-                       : 'bg-gradient-to-r from-[#FB7185] to-[#F43F5E] hover:from-[#F43F5E] hover:to-[#E11D48] shadow-sm hover:shadow-md'
+                       ? 'opacity-60 cursor-not-allowed'
+                       : 'opacity-100'
                      }
                      ${shouldHighlightCreate ? 'ring-2 ring-rose-300 ring-offset-2' : ''}`}
           >
