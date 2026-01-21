@@ -73,13 +73,13 @@ export default function Home() {
           </div>
           <div className="flex items-center gap-3">
             <LanguageToggle />
-            <Link
-              href="/library"
-              className="py-2 px-4 text-sm font-medium text-gray-700 bg-white 
-                       border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
-            >
+          <Link
+            href="/library"
+            className="py-2 px-4 text-sm font-medium text-gray-700 bg-white 
+                     border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
+          >
               {t.libraryButton}
-            </Link>
+          </Link>
           </div>
         </div>
       </header>
@@ -109,9 +109,9 @@ export default function Home() {
 
         {/* 결과 영역 */}
         {result && (
-          <section className="mb-8">
-            <ResultCards result={result} onSaveSuccess={handleSaveSuccess} />
-          </section>
+            <section className="mb-8">
+              <ResultCards result={result} onSaveSuccess={handleSaveSuccess} />
+            </section>
         )}
 
         {/* 안내 문구 (결과 없을 때만) */}
