@@ -119,7 +119,7 @@ export default function ResultCards({ result, onSaveSuccess }: ResultCardsProps)
     
     try {
       // 강화된 진단 기능이 있는 speakText 사용 (개발/프로덕션 모두)
-      const { speakText, type TtsResult } = await import('@/src/lib/tts/speakText');
+      const { speakText } = await import('@/src/lib/tts/speakText');
       const result = await speakText(textToSpeak, language, cardType);
       
       if (!result.success) {
