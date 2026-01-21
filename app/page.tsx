@@ -3,20 +3,19 @@
 import { useState, useEffect } from 'react';
 import Composer from '@/components/Composer';
 import ResultCards from '@/components/ResultCards';
-import NarrationBar from '@/components/NarrationBar';
+import LanguageToggle from '@/components/LanguageToggle';
 import { GenerateResponse } from '@/lib/schema';
 import { generateSentences } from '@/lib/generate';
 import { getTodaySentence } from '@/lib/storage';
-import { getTTSPlayer } from '@/lib/tts';
+import { useLanguage } from '@/src/contexts/LanguageContext';
 import Link from 'next/link';
 
 export default function Home() {
+  const { t, language } = useLanguage();
   const [isLoading, setIsLoading] = useState(false);
   const [result, setResult] = useState<GenerateResponse | null>(null);
   const [error, setError] = useState('');
   const [latestSentence, setLatestSentence] = useState<string>('');
-
-  const tts = getTTSPlayer();
 
   // 최근 저장 문장 불러오기
   useEffect(() => {
@@ -31,37 +30,29 @@ export default function Home() {
     setError('');
     setResult(null);
 
+    console.log(`[Home] Generating sentences (lang: ${language})`);
+
     try {
-      const data = await generateSentences(input);
+      const data = await generateSentences(input, language);
       setResult(data);
+      
+      // EN 모드에서 한글 검증
+      if (language === 'en') {
+        const hasKorean = /[가-힣]/.test(data.gentle + data.clear + data.brave);
+        if (hasKorean) {
+          console.warn('[Home] ⚠️ Korean characters detected in EN mode result');
+          setError('Generated sentences contain Korean characters. Please try again.');
+          setResult(null);
+        }
+      }
     } catch (err) {
-      const errorMessage = err instanceof Error ? err.message : '문장 생성에 실패했어요.';
+      const errorMessage = err instanceof Error ? err.message : t.playFailed;
       setError(errorMessage);
     } finally {
       setIsLoading(false);
     }
   };
 
-  const handleReadLatest = () => {
-    if (!result) return;
-
-    // 3개 문장 + 낭독용 문장을 순서대로 읽기
-    const texts = [
-      result.lines.gentle,
-      result.lines.clear,
-      result.lines.brave,
-      result.narration,
-    ];
-
-    tts.speakMultiple(texts, {
-      rate: 0.95,
-      pauseBetween: 800,
-      onError: (error) => {
-        console.error('연속 재생 실패:', error);
-        alert('읽기에 실패했어요.');
-      },
-    });
-  };
 
   const handleSaveSuccess = () => {
     // 저장 성공 시 최근 저장 문장 업데이트
@@ -77,16 +68,19 @@ export default function Home() {
       <header className="py-8 px-4 border-b border-gray-100">
         <div className="max-w-2xl mx-auto flex items-center justify-between">
           <div>
-            <h1 className="text-2xl font-bold text-gray-900">Happy Sentences</h1>
-            <p className="text-sm text-gray-500 mt-1">행복을 주는 문장</p>
+            <h1 className="text-2xl font-bold text-gray-900">{t.appTitle}</h1>
+            <p className="text-sm text-gray-500 mt-1">{t.appSubtitle}</p>
           </div>
-          <Link
-            href="/library"
-            className="py-2 px-4 text-sm font-medium text-gray-700 bg-white 
-                     border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
-          >
-            보관함
-          </Link>
+          <div className="flex items-center gap-3">
+            <LanguageToggle />
+            <Link
+              href="/library"
+              className="py-2 px-4 text-sm font-medium text-gray-700 bg-white 
+                       border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
+            >
+              {t.libraryButton}
+            </Link>
+          </div>
         </div>
       </header>
 
@@ -96,7 +90,6 @@ export default function Home() {
         <section className="mb-12">
           <Composer
             onGenerate={handleGenerate}
-            onReadLatest={handleReadLatest}
             isLoading={isLoading}
             hasResult={result !== null}
             latestSentence={latestSentence}
@@ -116,15 +109,9 @@ export default function Home() {
 
         {/* 결과 영역 */}
         {result && (
-          <>
-            <section className="mb-8">
-              <ResultCards result={result} onSaveSuccess={handleSaveSuccess} />
-            </section>
-
-            <section>
-              <NarrationBar narration={result.narration} />
-            </section>
-          </>
+          <section className="mb-8">
+            <ResultCards result={result} onSaveSuccess={handleSaveSuccess} />
+          </section>
         )}
 
         {/* 안내 문구 (결과 없을 때만) */}
@@ -132,7 +119,7 @@ export default function Home() {
           <section className="mt-16">
             <div className="max-w-2xl mx-auto px-4 text-center">
               <p className="text-gray-400 text-sm">
-                단어 하나만 적어도 됩니다. 오늘의 마음을 그대로 적어보세요.
+                {t.guideText}
               </p>
             </div>
           </section>
@@ -143,7 +130,7 @@ export default function Home() {
       <footer className="py-8 mt-16 border-t border-gray-100">
         <div className="max-w-2xl mx-auto px-4 text-center">
           <p className="text-xs text-gray-400">
-            행복을 주는 문장을 만들어드립니다. 하루에 하나씩 저장해보세요.
+            {t.footerText}
           </p>
         </div>
       </footer>

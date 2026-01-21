@@ -2,16 +2,24 @@
 
 import { useState, useEffect } from 'react';
 import { getTTSPlayer } from '@/lib/tts';
+import { useLanguage } from '@/src/contexts/LanguageContext';
+import { getBasicTtsPlayer } from '@/src/lib/tts/basicTts';
+import { getPremiumTtsPlayer } from '@/src/lib/tts/premiumTts';
+import TtsModal from '@/components/TtsModal';
 
 interface NarrationBarProps {
   narration: string;
 }
 
 export default function NarrationBar({ narration }: NarrationBarProps) {
+  const { t, language } = useLanguage();
   const [isPlaying, setIsPlaying] = useState(false);
   const [rate, setRate] = useState(1.0);
+  const [showTtsModal, setShowTtsModal] = useState(false);
 
   const tts = getTTSPlayer();
+  const basicTts = getBasicTtsPlayer();
+  const premiumTts = getPremiumTtsPlayer();
 
   useEffect(() => {
     // 컴포넌트 언마운트 시 정지
@@ -23,19 +31,37 @@ export default function NarrationBar({ narration }: NarrationBarProps) {
   const handlePlay = () => {
     if (isPlaying) {
       tts.stop();
+      basicTts.stop();
+      premiumTts.stop();
       setIsPlaying(false);
     } else {
-      tts.speak(narration, {
-        rate,
-        onEnd: () => setIsPlaying(false),
-        onError: (error) => {
-          console.error('낭독 실패:', error);
-          setIsPlaying(false);
-          alert('낭독에 실패했어요.');
-        },
-      });
-      setIsPlaying(true);
+      setShowTtsModal(true);
     }
+  };
+
+  const handleBasicTts = () => {
+    basicTts.speak(narration, language, {
+      rate,
+      onEnd: () => setIsPlaying(false),
+      onError: (error) => {
+        console.error('Basic TTS 실패:', error);
+        setIsPlaying(false);
+        alert(t.narrationFailed);
+      },
+    });
+    setIsPlaying(true);
+  };
+
+  const handlePremiumTts = async () => {
+    await premiumTts.play(narration, language, {
+      onStart: () => setIsPlaying(true),
+      onEnd: () => setIsPlaying(false),
+      onError: (error) => {
+        console.error('Premium TTS 실패:', error);
+        setIsPlaying(false);
+        alert(t.narrationFailed);
+      },
+    });
   };
 
   const handleRateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -57,7 +83,7 @@ export default function NarrationBar({ narration }: NarrationBarProps) {
     <div className="w-full max-w-2xl mx-auto px-4 mt-8">
       <div className="p-6 bg-gradient-to-br from-purple-50 to-pink-50 rounded-2xl border-2 border-purple-100">
         <div className="mb-3">
-          <span className="text-sm font-medium text-purple-900">낭독용 문장</span>
+          <span className="text-sm font-medium text-purple-900">{t.narrationLabel}</span>
         </div>
 
         <p
@@ -95,7 +121,7 @@ export default function NarrationBar({ narration }: NarrationBarProps) {
                     clipRule="evenodd"
                   />
                 </svg>
-                낭독 정지
+                {t.narrationStop}
               </span>
             ) : (
               <span className="flex items-center justify-center gap-2">
@@ -111,14 +137,14 @@ export default function NarrationBar({ narration }: NarrationBarProps) {
                     clipRule="evenodd"
                   />
                 </svg>
-                낭독 시작
+                {t.narrationStart}
               </span>
             )}
           </button>
 
           {/* 속도 조절 */}
           <div className="flex items-center gap-3">
-            <span className="text-sm text-gray-600 min-w-[60px]">속도</span>
+            <span className="text-sm text-gray-600 min-w-[60px]">{t.speedLabel}</span>
             <input
               type="range"
               min="0.8"
@@ -134,6 +160,14 @@ export default function NarrationBar({ narration }: NarrationBarProps) {
           </div>
         </div>
       </div>
+
+      {/* TTS 선택 모달 */}
+      <TtsModal
+        isOpen={showTtsModal}
+        onClose={() => setShowTtsModal(false)}
+        onSelectBasic={handleBasicTts}
+        onSelectPremium={handlePremiumTts}
+      />
     </div>
   );
 }

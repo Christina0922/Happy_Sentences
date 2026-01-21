@@ -12,8 +12,11 @@ import {
 import { SavedSentence } from '@/lib/schema';
 import { getTTSPlayer } from '@/lib/tts';
 import { shareSentence } from '@/lib/share';
+import { useLanguage } from '@/src/contexts/LanguageContext';
+import LanguageToggle from '@/components/LanguageToggle';
 
 export default function LibraryPage() {
+  const { t, language } = useLanguage();
   const [sentences, setSentences] = useState<SavedSentence[]>([]);
   const [filter, setFilter] = useState<'all' | 'favorites'>('all');
   const [isPlaying, setIsPlaying] = useState(false);
@@ -42,11 +45,11 @@ export default function LibraryPage() {
   };
 
   const handleDelete = (id: string) => {
-    const confirmed = confirm('이 문장을 삭제할까요?');
+    const confirmed = confirm(t.deleteConfirm);
     if (confirmed) {
       const success = deleteSentence(id);
       if (success) {
-        showMessage('문장을 삭제했어요.');
+        showMessage(t.deleteSuccess);
         loadSentences();
       }
     }
@@ -69,7 +72,7 @@ export default function LibraryPage() {
       : getRecentSentences(7).map(s => s.text);
 
     if (textsToPlay.length === 0) {
-      showMessage('재생할 문장이 없어요.');
+      showMessage(t.noSentencesToPlay);
       return;
     }
 
@@ -82,12 +85,12 @@ export default function LibraryPage() {
       },
       onComplete: () => {
         setIsPlaying(false);
-        showMessage('재생이 완료되었어요.');
+        showMessage(t.playComplete);
       },
       onError: (error) => {
         console.error('연속 재생 실패:', error);
         setIsPlaying(false);
-        showMessage('재생에 실패했어요.');
+        showMessage(t.playFailed);
       },
     });
   };
@@ -103,20 +106,19 @@ export default function LibraryPage() {
     const month = date.getMonth() + 1;
     const day = date.getDate();
     
-    const weekdays = ['일', '월', '화', '수', '목', '금', '토'];
-    const weekday = weekdays[date.getDay()];
+    const weekday = t.weekdays[date.getDay()];
 
-    return `${year}년 ${month}월 ${day}일 (${weekday})`;
+    return t.dateFormat(year, month, day, weekday);
   };
 
   const getVariantLabel = (variant: string) => {
     switch (variant) {
       case 'gentle':
-        return '다정한 한 줄';
+        return t.variantGentle;
       case 'clear':
-        return '현실 정리 한 줄';
+        return t.variantClear;
       case 'brave':
-        return '용기 한 줄';
+        return t.variantBrave;
       default:
         return '';
     }
@@ -128,18 +130,21 @@ export default function LibraryPage() {
       <header className="py-8 px-4 border-b border-gray-100">
         <div className="max-w-3xl mx-auto flex items-center justify-between">
           <div>
-            <h1 className="text-2xl font-bold text-gray-900">보관함</h1>
+            <h1 className="text-2xl font-bold text-gray-900">{t.libraryTitle}</h1>
             <p className="text-sm text-gray-500 mt-1">
-              저장한 문장 {sentences.length}개
+              {t.savedCount} {sentences.length}{language === 'kr' ? '개' : ''}
             </p>
           </div>
-          <Link
-            href="/"
-            className="py-2 px-4 text-sm font-medium text-gray-700 bg-white 
-                     border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
-          >
-            홈으로
-          </Link>
+          <div className="flex items-center gap-3">
+            <LanguageToggle />
+            <Link
+              href="/"
+              className="py-2 px-4 text-sm font-medium text-gray-700 bg-white 
+                       border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
+            >
+              {t.homeButton}
+            </Link>
+          </div>
         </div>
       </header>
 
@@ -165,7 +170,7 @@ export default function LibraryPage() {
                              : 'bg-white text-gray-700 border border-gray-300 hover:bg-gray-50'
                          }`}
               >
-                전체
+                {t.allFilter}
               </button>
               <button
                 onClick={() => setFilter('favorites')}
@@ -176,7 +181,7 @@ export default function LibraryPage() {
                              : 'bg-white text-gray-700 border border-gray-300 hover:bg-gray-50'
                          }`}
               >
-                ⭐ 즐겨찾기
+                {t.favoritesFilter}
               </button>
             </div>
 
@@ -191,7 +196,7 @@ export default function LibraryPage() {
                        }
                        disabled:opacity-50 disabled:cursor-not-allowed`}
             >
-              {isPlaying ? '정지' : '연속 재생'}
+              {isPlaying ? t.stopButton : t.continuousPlay}
             </button>
           </div>
 
@@ -200,8 +205,8 @@ export default function LibraryPage() {
             <div className="py-20 text-center">
               <p className="text-gray-400">
                 {filter === 'favorites'
-                  ? '즐겨찾기한 문장이 없어요.'
-                  : '저장한 문장이 없어요. 홈에서 문장을 만들어보세요.'}
+                  ? t.noSentencesFavorites
+                  : t.noSentencesAll}
               </p>
             </div>
           ) : (
@@ -248,7 +253,7 @@ export default function LibraryPage() {
                                bg-gray-50 border border-gray-200 rounded-lg hover:bg-gray-100 
                                transition-colors"
                     >
-                      공유
+                      {t.shareButtonLib}
                     </button>
                     <button
                       onClick={() => handleDelete(sentence.id)}
@@ -256,7 +261,7 @@ export default function LibraryPage() {
                                bg-red-50 border border-red-200 rounded-lg hover:bg-red-100 
                                transition-colors"
                     >
-                      삭제
+                      {t.deleteButton}
                     </button>
                   </div>
                 </div>
