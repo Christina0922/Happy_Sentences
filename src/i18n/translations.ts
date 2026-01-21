@@ -44,6 +44,10 @@ export interface Translations {
   deleteButton: string;
   shareButtonLib: string;
 
+  // ✅ Library Date UI (이번 에러 해결 핵심)
+  weekdays: string[];
+  dateFormat: (year: number, month: number, day: number, weekday: string) => string;
+
   // Messages
   saveTodayExists: string;
   saveCancelled: string;
@@ -56,40 +60,24 @@ export interface Translations {
   // Footer
   footerText: string;
 
-  // Guide text
-  guideText: string;
+  // Language
+  langKr: string;
+  langEn: string;
 
-  // Days of week
-  weekdays: string[];
-  dateFormat: (year: number, month: number, day: number, weekday: string) => string;
-
-  // TTS Modal
+  // TTS (Premium)
   ttsModalTitle: string;
-  ttsModalSubtitle: string;
   ttsBasicTitle: string;
-  ttsBasicDescription: string;
+  ttsBasicDesc: string;
   ttsPremiumTitle: string;
-  ttsPremiumDescription: string;
-  ttsFree: string;
-  ttsAvailable: string;
-  ttsDevMode: string;
-  ttsCreditsRemaining: string;
-  
-  // TTS Paywall
-  ttsPaywallTitle: string;
-  ttsPaywallDescription: string;
+  ttsPremiumDesc: string;
+  ttsPremiumLockedDesc: string;
   ttsWatchAd: string;
   ttsSubscribe: string;
-  ttsBuyCredits: string;
-  ttsBack: string;
-  ttsAdCompleted: string;
-  ttsSubscribeComingSoon: string;
-  ttsBuyCreditsComingSoon: string;
+  ttsClose: string;
 
-  // Speech Recognition (Voice Input)
+  // Voice Input
   voiceInputButton: string;
   voiceInputListening: string;
-  voiceInputProcessing: string;
   voiceInputStop: string;
   voiceInputNotSupported: string;
   voiceInputPermissionDenied: string;
@@ -128,91 +116,80 @@ export const translations: Record<Language, Translations> = {
     saveButton: '저장',
     shareButton: '공유',
     readButtonShort: '읽기',
-    stopButton: '정지',
+    stopButton: '중지',
 
     // Narration Bar
-    narrationLabel: '낭독용 문장',
-    narrationStart: '낭독 시작',
-    narrationStop: '낭독 정지',
+    narrationLabel: '읽기',
+    narrationStart: '시작',
+    narrationStop: '중지',
     speedLabel: '속도',
 
     // Library
     libraryTitle: '보관함',
-    savedCount: '저장한 문장',
+    savedCount: '저장된 문장',
     allFilter: '전체',
-    favoritesFilter: '⭐ 즐겨찾기',
+    favoritesFilter: '즐겨찾기',
     continuousPlay: '연속 재생',
-    noSentencesAll: '저장한 문장이 없어요. 홈에서 문장을 만들어보세요.',
-    noSentencesFavorites: '즐겨찾기한 문장이 없어요.',
-    deleteConfirm: '이 문장을 삭제할까요?',
-    deleteSuccess: '문장을 삭제했어요.',
+    noSentencesAll: '저장된 문장이 없습니다.',
+    noSentencesFavorites: '즐겨찾기한 문장이 없습니다.',
+    deleteConfirm: '정말 삭제할까요?',
+    deleteSuccess: '삭제되었습니다.',
     deleteButton: '삭제',
     shareButtonLib: '공유',
 
+    // ✅ Library Date UI
+    weekdays: ['일', '월', '화', '수', '목', '금', '토'],
+    dateFormat: (year, month, day, weekday) => `${year}년 ${month}월 ${day}일(${weekday})`,
+
     // Messages
-    saveTodayExists: '오늘은 이미 저장했어요. 기존 문장을 이 문장으로 교체할까요?',
-    saveCancelled: '저장을 취소했어요.',
+    saveTodayExists: '오늘 저장한 문장이 이미 있습니다.',
+    saveCancelled: '저장이 취소되었습니다.',
     readFailed: '읽기에 실패했어요.',
-    narrationFailed: '낭독에 실패했어요.',
-    playComplete: '재생이 완료되었어요.',
-    playFailed: '재생에 실패했어요.',
-    noSentencesToPlay: '재생할 문장이 없어요.',
+    narrationFailed: '읽기 재생에 실패했어요.',
+    playComplete: '연속 재생이 완료되었습니다.',
+    playFailed: '연속 재생에 실패했어요.',
+    noSentencesToPlay: '재생할 문장이 없습니다.',
 
     // Footer
     footerText: '행복을 주는 문장을 만들어드립니다. 하루에 하나씩 저장해보세요.',
 
-    // Guide text
-    guideText: '단어 하나만 적어도 됩니다. 오늘의 마음을 그대로 적어보세요.',
+    // Language
+    langKr: 'KR',
+    langEn: 'EN',
 
-    // Days of week
-    weekdays: ['일', '월', '화', '수', '목', '금', '토'],
-    dateFormat: (year, month, day, weekday) => `${year}년 ${month}월 ${day}일 (${weekday})`,
-
-    // TTS Modal
+    // TTS (Premium)
     ttsModalTitle: '읽어주기',
-    ttsModalSubtitle: '읽기 방식을 선택해주세요',
-    ttsBasicTitle: '기본 음성',
-    ttsBasicDescription: '기기 내장 음성으로 읽어드려요',
-    ttsPremiumTitle: '사람 목소리',
-    ttsPremiumDescription: '더 자연스럽고 감정이 담긴 음성으로 읽어드려요',
-    ttsFree: '무료',
-    ttsAvailable: '사용 가능',
-    ttsDevMode: '개발 모드',
-    ttsCreditsRemaining: '남은 크레딧',
-    
-    // TTS Paywall
-    ttsPaywallTitle: '고급 음성 사용하기',
-    ttsPaywallDescription: '사람 목소리로 읽으려면 아래 방법 중 하나를 선택해주세요',
-    ttsWatchAd: '광고 보고 30분 무료 사용',
-    ttsSubscribe: '구독하고 무제한 사용',
-    ttsBuyCredits: '크레딧 구매하기',
-    ttsBack: '← 돌아가기',
-    ttsAdCompleted: '광고 시청 완료! 30분간 고급 음성을 사용할 수 있습니다.',
-    ttsSubscribeComingSoon: '구독 기능은 곧 출시됩니다!',
-    ttsBuyCreditsComingSoon: '크레딧 구매 기능은 곧 출시됩니다!',
+    ttsBasicTitle: '기본 음성(무료)',
+    ttsBasicDesc: '기기 내장 음성으로 읽어드려요.',
+    ttsPremiumTitle: '사람 같은 음성(고급)',
+    ttsPremiumDesc: '더 자연스럽게 읽어드려요.',
+    ttsPremiumLockedDesc: '고급 음성은 광고 또는 결제 후 사용 가능합니다.',
+    ttsWatchAd: '광고 보고 1회 사용',
+    ttsSubscribe: '구독/결제',
+    ttsClose: '닫기',
 
-    // Speech Recognition (Voice Input)
+    // Voice Input
     voiceInputButton: '말로 입력',
-    voiceInputListening: '듣는 중…',
-    voiceInputProcessing: '인식 중…',
+    voiceInputListening: '듣는 중...',
     voiceInputStop: '중지',
     voiceInputNotSupported: '이 브라우저는 음성 인식을 지원하지 않습니다.',
-    voiceInputPermissionDenied: '마이크 권한이 필요합니다. 브라우저 설정에서 마이크 권한을 허용해주세요.',
-    voiceInputNoSpeech: '음성이 감지되지 않았습니다. 다시 시도해주세요.',
+    voiceInputPermissionDenied: '마이크 권한이 필요합니다. 브라우저 설정에서 마이크 권한을 허용해 주세요.',
+    voiceInputNoSpeech: '말이 감지되지 않았습니다. 다시 시도해 주세요.',
     voiceInputError: '음성 인식 중 오류가 발생했습니다.',
-    voiceInputSuccess: '음성 인식 완료!',
+    voiceInputSuccess: '음성이 인식되었습니다!',
 
     // Ad Pass
     adWatchFailed: '광고 시청에 실패했습니다.',
-    adPassGranted: '광고 시청으로 30분 무료 이용권이 지급되었습니다!',
-    adPassExpired: '광고 시청 무료 이용권이 만료되었습니다.',
+    adPassGranted: '광고 시청 완료! 30분간 고급 음성을 사용할 수 있습니다.',
+    adPassExpired: '광고 1회권이 만료되었습니다.',
     adPassRemaining: '남은 시간: ',
   },
+
   en: {
     // Header
     appTitle: 'Happy Sentences',
-    appSubtitle: 'Write a sentence that makes you feel better',
-    libraryButton: 'Library',
+    appSubtitle: 'Create sentences that lift you up',
+    libraryButton: 'Saved',
     homeButton: 'Home',
 
     // Composer
@@ -221,8 +198,8 @@ export const translations: Record<Language, Translations> = {
     creatingButton: 'Creating...',
     readButton: 'Read aloud',
     resetButton: 'Reset',
-    recentSaved: 'Recently saved',
-    inputAlert: 'Please enter at least one word.',
+    recentSaved: 'Recent saved',
+    inputAlert: 'Please enter at least one line.',
 
     // Result Cards
     variantGentle: 'Gentle',
@@ -235,69 +212,57 @@ export const translations: Record<Language, Translations> = {
 
     // Narration Bar
     narrationLabel: 'Narration',
-    narrationStart: 'Start Reading',
-    narrationStop: 'Stop Reading',
+    narrationStart: 'Start',
+    narrationStop: 'Stop',
     speedLabel: 'Speed',
 
     // Library
-    libraryTitle: 'Library',
+    libraryTitle: 'Saved',
     savedCount: 'Saved sentences',
     allFilter: 'All',
-    favoritesFilter: '⭐ Favorites',
-    continuousPlay: 'Play All',
-    noSentencesAll: 'No saved sentences yet. Create one from the home page.',
-    noSentencesFavorites: 'No favorite sentences yet.',
-    deleteConfirm: 'Are you sure you want to delete this sentence?',
-    deleteSuccess: 'Sentence deleted.',
+    favoritesFilter: 'Favorites',
+    continuousPlay: 'Continuous play',
+    noSentencesAll: 'No saved sentences.',
+    noSentencesFavorites: 'No favorite sentences.',
+    deleteConfirm: 'Delete this sentence?',
+    deleteSuccess: 'Deleted.',
     deleteButton: 'Delete',
     shareButtonLib: 'Share',
 
-    // Messages
-    saveTodayExists: 'You already saved a sentence today. Replace it with this one?',
-    saveCancelled: 'Save cancelled.',
-    readFailed: 'Failed to read.',
-    narrationFailed: 'Failed to narrate.',
-    playComplete: 'Playback completed.',
-    playFailed: 'Playback failed.',
-    noSentencesToPlay: 'No sentences to play.',
-
-    // Footer
-    footerText: 'Create sentences that bring you happiness. Save one each day.',
-
-    // Guide text
-    guideText: 'Even one word is enough. Write how you feel today.',
-
-    // Days of week
+    // ✅ Library Date UI
     weekdays: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
     dateFormat: (year, month, day, weekday) => `${weekday}, ${month}/${day}/${year}`,
 
-    // TTS Modal
-    ttsModalTitle: 'Read Aloud',
-    ttsModalSubtitle: 'Choose reading mode',
-    ttsBasicTitle: 'Basic Voice',
-    ttsBasicDescription: 'Device built-in voice',
-    ttsPremiumTitle: 'Human Voice',
-    ttsPremiumDescription: 'Natural and expressive voice',
-    ttsFree: 'Free',
-    ttsAvailable: 'Available',
-    ttsDevMode: 'Dev Mode',
-    ttsCreditsRemaining: 'Credits remaining',
-    
-    // TTS Paywall
-    ttsPaywallTitle: 'Premium Voice',
-    ttsPaywallDescription: 'Choose one of the following to use premium voice',
-    ttsWatchAd: 'Watch ad for 30 min free access',
-    ttsSubscribe: 'Subscribe for unlimited access',
-    ttsBuyCredits: 'Buy credits',
-    ttsBack: '← Back',
-    ttsAdCompleted: 'Ad completed! You can use premium voice for 30 minutes.',
-    ttsSubscribeComingSoon: 'Subscription coming soon!',
-    ttsBuyCreditsComingSoon: 'Credit purchase coming soon!',
+    // Messages
+    saveTodayExists: 'You already saved a sentence today.',
+    saveCancelled: 'Save cancelled.',
+    readFailed: 'Failed to read aloud.',
+    narrationFailed: 'Failed to play narration.',
+    playComplete: 'Continuous play completed.',
+    playFailed: 'Continuous play failed.',
+    noSentencesToPlay: 'There are no sentences to play.',
 
-    // Speech Recognition (Voice Input)
+    // Footer
+    footerText: 'We create sentences that lift you up. Save one each day.',
+
+    // Language
+    langKr: 'KR',
+    langEn: 'EN',
+
+    // TTS (Premium)
+    ttsModalTitle: 'Read aloud',
+    ttsBasicTitle: 'Basic voice (Free)',
+    ttsBasicDesc: 'Reads using your device voice.',
+    ttsPremiumTitle: 'Premium voice',
+    ttsPremiumDesc: 'Sounds more natural.',
+    ttsPremiumLockedDesc: 'Premium voice is available after watching an ad or purchasing.',
+    ttsWatchAd: 'Watch an ad (1 use)',
+    ttsSubscribe: 'Subscribe / Purchase',
+    ttsClose: 'Close',
+
+    // Voice Input
     voiceInputButton: 'Speak',
-    voiceInputListening: 'Listening…',
-    voiceInputProcessing: 'Processing…',
+    voiceInputListening: 'Listening...',
     voiceInputStop: 'Stop',
     voiceInputNotSupported: 'Speech recognition is not supported in this browser.',
     voiceInputPermissionDenied: 'Microphone permission is required. Please allow microphone access in browser settings.',
@@ -307,9 +272,8 @@ export const translations: Record<Language, Translations> = {
 
     // Ad Pass
     adWatchFailed: 'Failed to watch ad.',
-    adPassGranted: '30 minutes free pass granted after watching ad!',
+    adPassGranted: 'Ad complete! Premium voice is available for 30 minutes.',
     adPassExpired: 'Ad pass expired.',
     adPassRemaining: 'Time remaining: ',
   },
 };
-

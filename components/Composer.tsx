@@ -233,10 +233,10 @@ export default function Composer({
             placeholder={t.inputPlaceholder}
             disabled={isLoading}
             rows={6}
-            className="w-full px-6 py-5 text-lg bg-white border-2 border-gray-200 rounded-2xl 
-                     focus:border-gray-400 focus:outline-none resize-none
-                     disabled:bg-gray-50 disabled:text-gray-400 transition-colors
-                     placeholder:text-gray-400"
+            className="w-full px-6 py-5 text-lg bg-white/80 backdrop-blur-sm border-2 border-pink-200 rounded-3xl 
+                     focus:border-pink-400 focus:ring-4 focus:ring-pink-100 focus:outline-none resize-none
+                     disabled:bg-gray-50 disabled:text-gray-400 transition-all duration-300
+                     placeholder:text-gray-400 shadow-lg hover:shadow-xl"
             style={{
               lineHeight: '1.7',
               letterSpacing: '-0.02em',
@@ -256,10 +256,12 @@ export default function Composer({
           <button
             type="submit"
             disabled={isLoading || !input.trim()}
-            className={`flex-1 py-4 px-6 text-base font-medium text-white bg-gray-900 
-                     rounded-xl hover:bg-gray-800 disabled:bg-gray-300 
-                     disabled:cursor-not-allowed transition-all
-                     ${shouldHighlightCreate ? 'animate-pulse ring-4 ring-gray-400' : ''}`}
+            className={`flex-1 py-4 px-6 text-base font-medium text-white 
+                     bg-gradient-to-r from-pink-500 via-orange-400 to-purple-500 
+                     rounded-full hover:from-pink-600 hover:via-orange-500 hover:to-purple-600
+                     disabled:from-gray-300 disabled:to-gray-400
+                     disabled:cursor-not-allowed transition-all duration-300 shadow-lg hover:shadow-xl
+                     ${shouldHighlightCreate ? 'animate-bounce-subtle ring-4 ring-purple-300' : ''}`}
           >
             {isLoading ? (
               <span className="flex items-center justify-center gap-2">
@@ -295,14 +297,14 @@ export default function Composer({
             type="button"
             onClick={handleVoiceInput}
             disabled={isLoading || !recognition.isAvailable()}
-            className={`py-4 px-6 text-base font-medium rounded-xl transition-all
+            className={`py-4 px-6 text-base font-medium rounded-full transition-all duration-300 shadow-lg hover:shadow-xl
                      ${recognitionState === 'listening' 
-                       ? 'bg-red-500 text-white hover:bg-red-600 animate-pulse' 
+                       ? 'bg-gradient-to-r from-red-400 to-pink-500 text-white animate-pulse' 
                        : recognitionState === 'processing'
-                       ? 'bg-blue-500 text-white'
-                       : 'text-gray-700 bg-gray-100 hover:bg-gray-200'
+                       ? 'bg-gradient-to-r from-blue-400 to-purple-500 text-white'
+                       : 'text-gray-700 bg-white/80 backdrop-blur-sm hover:bg-white border-2 border-pink-200'
                      }
-                     disabled:bg-gray-100 disabled:text-gray-400 disabled:cursor-not-allowed`}
+                     disabled:bg-gray-100 disabled:text-gray-400 disabled:cursor-not-allowed disabled:border-gray-200`}
             title={!recognition.isAvailable() ? t.voiceInputNotSupported : ''}
           >
             {recognitionState === 'listening' ? (

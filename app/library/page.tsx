@@ -125,13 +125,15 @@ export default function LibraryPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
+    <div className="min-h-screen">
       {/* 헤더 */}
-      <header className="py-8 px-4 border-b border-gray-100">
-        <div className="max-w-3xl mx-auto flex items-center justify-between">
+      <header className="py-8 px-4 backdrop-blur-sm bg-white/30">
+        <div className="max-w-3xl mx-auto flex items-center justify-between animate-fade-in">
           <div>
-            <h1 className="text-2xl font-bold text-gray-900">{t.libraryTitle}</h1>
-            <p className="text-sm text-gray-500 mt-1">
+            <h1 className="text-3xl font-bold bg-gradient-to-r from-pink-500 via-orange-400 to-purple-500 bg-clip-text text-transparent">
+              📚 {t.libraryTitle}
+            </h1>
+            <p className="text-sm text-gray-600 mt-2">
               {t.savedCount} {sentences.length}{language === 'kr' ? '개' : ''}
             </p>
           </div>
@@ -139,8 +141,8 @@ export default function LibraryPage() {
             <LanguageToggle />
             <Link
               href="/"
-              className="py-2 px-4 text-sm font-medium text-gray-700 bg-white 
-                       border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
+              className="py-2 px-4 text-sm font-medium text-white bg-gradient-to-r from-pink-400 to-purple-400 
+                       rounded-full hover:from-pink-500 hover:to-purple-500 transition-all duration-300 shadow-lg hover:shadow-xl"
             >
               {t.homeButton}
             </Link>
@@ -153,8 +155,8 @@ export default function LibraryPage() {
         <div className="max-w-3xl mx-auto px-4">
           {/* 메시지 알림 */}
           {message && (
-            <div className="mb-4 p-4 bg-gray-900 text-white text-center rounded-xl animate-fade-in">
-              {message}
+            <div className="mb-4 p-4 bg-gradient-to-r from-purple-500 to-pink-500 text-white text-center rounded-2xl animate-fade-in shadow-lg">
+              <span className="text-lg">✨ {message}</span>
             </div>
           )}
 
@@ -163,10 +165,10 @@ export default function LibraryPage() {
             <div className="flex gap-2">
               <button
                 onClick={() => setFilter('all')}
-                className={`py-2 px-4 text-sm font-medium rounded-lg transition-colors
+                className={`py-2 px-4 text-sm font-medium rounded-full transition-all duration-300 shadow-md hover:shadow-lg
                          ${
                            filter === 'all'
-                             ? 'bg-gray-900 text-white'
+                             ? 'bg-gradient-to-r from-pink-500 to-purple-500 text-white'
                              : 'bg-white text-gray-700 border border-gray-300 hover:bg-gray-50'
                          }`}
               >
@@ -174,10 +176,10 @@ export default function LibraryPage() {
               </button>
               <button
                 onClick={() => setFilter('favorites')}
-                className={`py-2 px-4 text-sm font-medium rounded-lg transition-colors
+                className={`py-2 px-4 text-sm font-medium rounded-full transition-all duration-300 shadow-md hover:shadow-lg
                          ${
                            filter === 'favorites'
-                             ? 'bg-gray-900 text-white'
+                             ? 'bg-gradient-to-r from-pink-500 to-purple-500 text-white'
                              : 'bg-white text-gray-700 border border-gray-300 hover:bg-gray-50'
                          }`}
               >
@@ -188,11 +190,11 @@ export default function LibraryPage() {
             <button
               onClick={handlePlayMultiple}
               disabled={sentences.length === 0}
-              className={`py-2 px-4 text-sm font-medium rounded-lg transition-colors
+              className={`py-2 px-4 text-sm font-medium rounded-full transition-all duration-300 shadow-md hover:shadow-lg
                        ${
                          isPlaying
-                           ? 'bg-purple-900 text-white hover:bg-purple-800'
-                           : 'bg-purple-50 text-purple-900 border border-purple-200 hover:bg-purple-100'
+                           ? 'bg-gradient-to-r from-orange-500 to-red-500 text-white animate-pulse'
+                           : 'bg-gradient-to-r from-blue-400 to-cyan-400 text-white hover:from-blue-500 hover:to-cyan-500'
                        }
                        disabled:opacity-50 disabled:cursor-not-allowed`}
             >
@@ -214,7 +216,7 @@ export default function LibraryPage() {
               {sentences.map((sentence) => (
                 <div
                   key={sentence.id}
-                  className="p-6 bg-white border-2 border-gray-200 rounded-2xl hover:border-gray-300 transition-all"
+                  className="p-6 bg-white/80 backdrop-blur-sm border-2 border-pink-200 rounded-3xl hover:border-pink-300 hover:shadow-xl transition-all duration-300 animate-slide-up"
                 >
                   {/* 날짜 & 즐겨찾기 */}
                   <div className="flex items-center justify-between mb-3">
@@ -249,17 +251,17 @@ export default function LibraryPage() {
                   <div className="flex gap-2">
                     <button
                       onClick={() => handleShare(sentence.text)}
-                      className="flex-1 py-2 px-4 text-sm font-medium text-gray-700 
-                               bg-gray-50 border border-gray-200 rounded-lg hover:bg-gray-100 
-                               transition-colors"
+                      className="flex-1 py-2.5 px-4 text-sm font-medium text-white 
+                               bg-gradient-to-r from-blue-400 to-cyan-400 rounded-full 
+                               hover:from-blue-500 hover:to-cyan-500 transition-all duration-300 shadow-md hover:shadow-lg"
                     >
                       {t.shareButtonLib}
                     </button>
                     <button
                       onClick={() => handleDelete(sentence.id)}
-                      className="py-2 px-4 text-sm font-medium text-red-700 
-                               bg-red-50 border border-red-200 rounded-lg hover:bg-red-100 
-                               transition-colors"
+                      className="py-2.5 px-4 text-sm font-medium text-white 
+                               bg-gradient-to-r from-red-400 to-pink-400 rounded-full 
+                               hover:from-red-500 hover:to-pink-500 transition-all duration-300 shadow-md hover:shadow-lg"
                     >
                       {t.deleteButton}
                     </button>

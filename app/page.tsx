@@ -63,23 +63,25 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
+    <div className="min-h-screen">
       {/* 헤더 */}
-      <header className="py-8 px-4 border-b border-gray-100">
-        <div className="max-w-2xl mx-auto flex items-center justify-between">
+      <header className="py-8 px-4 backdrop-blur-sm bg-white/30">
+        <div className="max-w-2xl mx-auto flex items-center justify-between animate-fade-in">
           <div>
-            <h1 className="text-2xl font-bold text-gray-900">{t.appTitle}</h1>
-            <p className="text-sm text-gray-500 mt-1">{t.appSubtitle}</p>
+            <h1 className="text-3xl font-bold bg-gradient-to-r from-pink-500 via-orange-400 to-purple-500 bg-clip-text text-transparent">
+              😊 {t.appTitle}
+            </h1>
+            <p className="text-sm text-gray-600 mt-2">{t.appSubtitle}</p>
           </div>
           <div className="flex items-center gap-3">
             <LanguageToggle />
-          <Link
-            href="/library"
-            className="py-2 px-4 text-sm font-medium text-gray-700 bg-white 
-                     border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
-          >
+            <Link
+              href="/library"
+              className="py-2 px-4 text-sm font-medium text-white bg-gradient-to-r from-pink-400 to-purple-400 
+                       rounded-full hover:from-pink-500 hover:to-purple-500 transition-all duration-300 shadow-lg hover:shadow-xl"
+            >
               {t.libraryButton}
-          </Link>
+            </Link>
           </div>
         </div>
       </header>

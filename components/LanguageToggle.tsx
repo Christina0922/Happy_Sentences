@@ -11,13 +11,13 @@ export default function LanguageToggle() {
   };
 
   return (
-    <div className="flex items-center gap-1 bg-gray-100 rounded-lg p-1">
+    <div className="flex items-center gap-1 bg-white/60 backdrop-blur-sm rounded-full p-1 border-2 border-pink-200 shadow-md">
       <button
         onClick={() => handleToggle('kr')}
-        className={`px-3 py-1.5 text-sm font-medium rounded-md transition-colors
+        className={`px-4 py-1.5 text-sm font-semibold rounded-full transition-all duration-300
                    ${
                      language === 'kr'
-                       ? 'bg-white text-gray-900 shadow-sm'
+                       ? 'bg-gradient-to-r from-pink-500 to-purple-500 text-white shadow-lg'
                        : 'text-gray-600 hover:text-gray-900'
                    }`}
       >
@@ -25,10 +25,10 @@ export default function LanguageToggle() {
       </button>
       <button
         onClick={() => handleToggle('en')}
-        className={`px-3 py-1.5 text-sm font-medium rounded-md transition-colors
+        className={`px-4 py-1.5 text-sm font-semibold rounded-full transition-all duration-300
                    ${
                      language === 'en'
-                       ? 'bg-white text-gray-900 shadow-sm'
+                       ? 'bg-gradient-to-r from-pink-500 to-purple-500 text-white shadow-lg'
                        : 'text-gray-600 hover:text-gray-900'
                    }`}
       >
