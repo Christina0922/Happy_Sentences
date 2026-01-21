@@ -206,7 +206,7 @@ export default function Composer({
       case 'listening':
         return `${t.voiceInputListening} (${t.voiceInputStop})`;
       case 'processing':
-        return t.voiceInputProcessing;
+        return t.voiceInputListening; // processing 상태에도 "듣는 중..." 표시
       case 'error':
         return t.voiceInputError;
       default:
