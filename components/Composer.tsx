@@ -257,10 +257,11 @@ export default function Composer({
           <button
             type="submit"
             disabled={isLoading || !input.trim()}
-            className={`w-full h-12 px-6 text-[15px] font-bold text-white 
+            className={`w-full h-12 px-6 text-[15px] font-bold 
                      bg-gradient-to-r from-rose-400 to-rose-500 hover:from-rose-500 hover:to-rose-600
+                     text-white
                      rounded-[18px] shadow-sm hover:shadow-md
-                     disabled:from-gray-300 disabled:to-gray-300 disabled:cursor-not-allowed disabled:shadow-none
+                     disabled:from-gray-400 disabled:to-gray-400 disabled:text-gray-700 disabled:cursor-not-allowed disabled:shadow-none
                      transition-all duration-200
                      ${shouldHighlightCreate ? 'ring-2 ring-rose-300 ring-offset-2' : ''}`}
           >
