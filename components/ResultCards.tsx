@@ -247,19 +247,20 @@ export default function ResultCards({ result, onSaveSuccess }: ResultCardsProps)
     return (
       <div
         key={variant}
-        className={`p-7 rounded-[20px] border ${colors.bgColor} ${colors.borderColor} 
+        className={`p-7 rounded-[18px] border ${colors.bgColor} ${colors.borderColor} 
                    shadow-sm hover:shadow-md transition-all duration-200 animate-slide-up`}
       >
         <div className="mb-3 flex items-center gap-2">
           <span className="text-lg">{colors.emoji}</span>
-          <span className={`text-sm font-medium ${colors.textColor}`}>
+          <span className={`text-[13px] font-bold ${colors.textColor}`}>
             {label}
           </span>
         </div>
 
         <p
-          className="text-base text-gray-800 mb-5 leading-relaxed"
+          className="text-[16px] text-gray-900 mb-5 font-normal"
           style={{
+            lineHeight: '1.65',
             letterSpacing: '-0.01em',
           }}
         >
@@ -269,9 +270,9 @@ export default function ResultCards({ result, onSaveSuccess }: ResultCardsProps)
         <div className="flex gap-2">
           <button
             onClick={() => handleSave(variant, text)}
-            className="flex-1 h-10 px-4 text-sm font-medium text-white 
+            className="flex-1 h-10 px-4 text-[14px] font-bold text-white 
                      bg-gradient-to-r from-rose-400 to-rose-500 hover:from-rose-500 hover:to-rose-600
-                     rounded-2xl shadow-sm hover:shadow-md
+                     rounded-[16px] shadow-sm hover:shadow-md
                      transition-all duration-200"
           >
             {t.saveButton}
@@ -279,8 +280,8 @@ export default function ResultCards({ result, onSaveSuccess }: ResultCardsProps)
 
           <button
             onClick={() => handleShare(text)}
-            className="flex-1 h-10 px-4 text-sm font-medium text-gray-700 
-                     bg-white hover:bg-rose-50 hover:border-rose-200 rounded-2xl border border-gray-200 shadow-sm
+            className="flex-1 h-10 px-4 text-[14px] font-semibold text-gray-800 
+                     bg-white hover:bg-rose-50 hover:border-rose-200 rounded-[16px] border border-gray-300 shadow-sm
                      transition-all duration-200"
           >
             {t.shareButton}
@@ -288,11 +289,11 @@ export default function ResultCards({ result, onSaveSuccess }: ResultCardsProps)
 
           <button
             onClick={() => handleRead(variant, text)}
-            className={`flex-1 h-10 px-4 text-sm font-medium rounded-2xl shadow-sm transition-all duration-200
+            className={`flex-1 h-10 px-4 text-[14px] font-semibold rounded-[16px] shadow-sm transition-all duration-200
                      ${
                        isPlaying
                          ? 'bg-rose-500 text-white shadow-md border-2 border-rose-400'
-                         : 'bg-white text-gray-700 hover:bg-rose-50 hover:border-rose-200 border border-gray-200'
+                         : 'bg-white text-gray-800 hover:bg-rose-50 hover:border-rose-200 border border-gray-300'
                      }`}
           >
             {isPlaying ? t.stopButton : t.readButtonShort}
@@ -313,10 +314,11 @@ export default function ResultCards({ result, onSaveSuccess }: ResultCardsProps)
 
       {/* 요약 (선택) - 포근한 느낌 */}
       {result.summary && (
-        <div className="mb-6 p-6 bg-rose-50/30 rounded-[20px] border border-rose-100/50 shadow-sm">
+        <div className="mb-6 p-6 bg-rose-50/30 rounded-[18px] border border-rose-100/50 shadow-sm">
           <p
-            className="text-sm text-gray-700 leading-relaxed"
+            className="text-[15px] text-gray-900 font-normal"
             style={{
+              lineHeight: '1.65',
               letterSpacing: '-0.01em',
             }}
           >

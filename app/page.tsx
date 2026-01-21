@@ -73,10 +73,10 @@ export default function Home() {
       <header className="py-6 px-4 bg-white/80 backdrop-blur-sm border-b border-gray-100">
         <div className="max-w-2xl mx-auto flex items-center justify-between gap-4">
           <div className="flex-1 min-w-0">
-            <h1 className="text-2xl font-semibold text-gray-800">
+            <h1 className="text-[22px] font-bold text-gray-900 tracking-tight">
               😊 {t.appTitle}
             </h1>
-            <p className="text-sm text-gray-500 mt-1">{t.appSubtitle}</p>
+            <p className="text-[13px] font-medium text-gray-600 mt-1">{t.appSubtitle}</p>
           </div>
           
           {/* 모바일: 2줄 레이아웃, 데스크톱: 1줄 레이아웃 */}

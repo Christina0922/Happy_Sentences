@@ -135,10 +135,10 @@ export default function LibraryPage() {
       <header className="py-6 px-4 bg-white/80 backdrop-blur-sm border-b border-gray-100">
         <div className="max-w-3xl mx-auto flex items-center justify-between gap-4">
           <div className="flex-1 min-w-0">
-            <h1 className="text-2xl font-semibold text-gray-800">
+            <h1 className="text-[22px] font-bold text-gray-900 tracking-tight">
               📚 {t.libraryTitle}
             </h1>
-            <p className="text-sm text-gray-500 mt-1">
+            <p className="text-[13px] font-medium text-gray-600 mt-1">
               {t.savedCount} {sentences.length}{language === 'kr' ? '개' : ''}
             </p>
           </div>
@@ -173,22 +173,22 @@ export default function LibraryPage() {
             <div className="flex gap-2">
               <button
                 onClick={() => setFilter('all')}
-                className={`py-2 px-4 text-sm font-medium rounded-2xl shadow-sm transition-all duration-200
+                className={`py-2 px-4 text-[14px] font-semibold rounded-[16px] shadow-sm transition-all duration-200
                          ${
                            filter === 'all'
                              ? 'bg-gradient-to-r from-rose-400 to-rose-500 text-white shadow-md'
-                             : 'bg-white text-gray-700 border border-gray-200 hover:bg-rose-50 hover:border-rose-200'
+                             : 'bg-white text-gray-800 border border-gray-300 hover:bg-rose-50 hover:border-rose-200'
                          }`}
               >
                 {t.allFilter}
               </button>
               <button
                 onClick={() => setFilter('favorites')}
-                className={`py-2 px-4 text-sm font-medium rounded-2xl shadow-sm transition-all duration-200
+                className={`py-2 px-4 text-[14px] font-semibold rounded-[16px] shadow-sm transition-all duration-200
                          ${
                            filter === 'favorites'
                              ? 'bg-gradient-to-r from-rose-400 to-rose-500 text-white shadow-md'
-                             : 'bg-white text-gray-700 border border-gray-200 hover:bg-rose-50 hover:border-rose-200'
+                             : 'bg-white text-gray-800 border border-gray-300 hover:bg-rose-50 hover:border-rose-200'
                          }`}
               >
                 {t.favoritesFilter}
@@ -198,7 +198,7 @@ export default function LibraryPage() {
             <button
               onClick={handlePlayMultiple}
               disabled={sentences.length === 0}
-              className={`py-2 px-4 text-sm font-medium rounded-2xl shadow-sm transition-all duration-200
+              className={`py-2 px-4 text-[14px] font-bold rounded-[16px] shadow-sm transition-all duration-200
                        ${
                          isPlaying
                            ? 'bg-rose-500 text-white shadow-md border-2 border-rose-400'
@@ -224,7 +224,7 @@ export default function LibraryPage() {
               {sentences.map((sentence) => (
                 <div
                   key={sentence.id}
-                  className="p-6 bg-white border border-gray-200 rounded-[20px] shadow-sm hover:shadow-md hover:border-rose-200 transition-all duration-200"
+                  className="p-6 bg-white border border-gray-300 rounded-[18px] shadow-sm hover:shadow-md hover:border-rose-200 transition-all duration-200"
                 >
                   {/* 날짜 & 즐겨찾기 */}
                   <div className="flex items-center justify-between mb-3">
@@ -259,16 +259,16 @@ export default function LibraryPage() {
                   <div className="flex gap-2">
                     <button
                       onClick={() => handleShare(sentence.text)}
-                      className="flex-1 h-10 px-4 text-sm font-medium text-gray-700 
-                               bg-white hover:bg-rose-50 hover:border-rose-200 rounded-2xl border border-gray-200 shadow-sm
+                      className="flex-1 h-10 px-4 text-[14px] font-semibold text-gray-800 
+                               bg-white hover:bg-rose-50 hover:border-rose-200 rounded-[16px] border border-gray-300 shadow-sm
                                transition-all duration-200"
                     >
                       {t.shareButtonLib}
                     </button>
                     <button
                       onClick={() => handleDelete(sentence.id)}
-                      className="h-10 px-4 text-sm font-medium text-white 
-                               bg-rose-500 hover:bg-rose-600 rounded-2xl shadow-sm hover:shadow-md
+                      className="h-10 px-4 text-[14px] font-bold text-white 
+                               bg-rose-500 hover:bg-rose-600 rounded-[16px] shadow-sm hover:shadow-md
                                transition-all duration-200"
                     >
                       {t.deleteButton}

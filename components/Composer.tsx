@@ -233,13 +233,13 @@ export default function Composer({
             placeholder={t.inputPlaceholder}
             disabled={isLoading}
             rows={6}
-            className="w-full px-7 py-5 text-base bg-white border border-gray-200 rounded-[20px]
-                     focus:border-rose-300 focus:ring-3 focus:ring-rose-50 focus:outline-none resize-none
+            className="w-full px-7 py-5 text-[16px] text-gray-900 bg-white border border-gray-300 rounded-[18px]
+                     focus:border-rose-400 focus:ring-3 focus:ring-rose-50 focus:outline-none resize-none
                      disabled:bg-gray-50 disabled:text-gray-400 transition-all duration-200
-                     placeholder:text-gray-500 shadow-sm"
+                     placeholder:text-gray-500 shadow-sm font-normal"
             style={{
-              lineHeight: '1.7',
-              letterSpacing: '-0.02em',
+              lineHeight: '1.65',
+              letterSpacing: '-0.01em',
             }}
           />
           
@@ -257,9 +257,9 @@ export default function Composer({
           <button
             type="submit"
             disabled={isLoading || !input.trim()}
-            className={`w-full h-12 px-6 text-base font-semibold text-white 
+            className={`w-full h-12 px-6 text-[15px] font-bold text-white 
                      bg-gradient-to-r from-rose-400 to-rose-500 hover:from-rose-500 hover:to-rose-600
-                     rounded-2xl shadow-sm hover:shadow-md
+                     rounded-[18px] shadow-sm hover:shadow-md
                      disabled:from-gray-300 disabled:to-gray-300 disabled:cursor-not-allowed disabled:shadow-none
                      transition-all duration-200
                      ${shouldHighlightCreate ? 'ring-2 ring-rose-300 ring-offset-2' : ''}`}
@@ -300,12 +300,12 @@ export default function Composer({
               type="button"
               onClick={handleVoiceInput}
               disabled={isLoading || !recognition.isAvailable()}
-              className={`flex-1 h-12 px-4 text-sm font-medium rounded-2xl transition-all duration-200
+              className={`flex-1 h-12 px-4 text-[14px] font-semibold rounded-[18px] transition-all duration-200
                        ${recognitionState === 'listening' 
                          ? 'bg-rose-500 text-white shadow-md border-2 border-rose-400' 
                          : recognitionState === 'processing'
                          ? 'bg-orange-500 text-white shadow-md border-2 border-orange-400'
-                         : 'text-gray-700 bg-white hover:bg-rose-50 hover:border-rose-200 border border-gray-200 shadow-sm'
+                         : 'text-gray-800 bg-white hover:bg-rose-50 hover:border-rose-200 border border-gray-300 shadow-sm'
                        }
                        disabled:bg-gray-100 disabled:text-gray-400 disabled:cursor-not-allowed disabled:border-gray-200 disabled:shadow-none`}
               title={!recognition.isAvailable() ? t.voiceInputNotSupported : ''}
@@ -323,8 +323,8 @@ export default function Composer({
               type="button"
               onClick={handleReadClick}
               disabled={!hasResult || isLoading}
-              className="flex-1 h-12 px-4 text-sm font-medium text-gray-700 bg-white hover:bg-rose-50 hover:border-rose-200
-                       rounded-2xl border border-gray-200 shadow-sm
+              className="flex-1 h-12 px-4 text-[14px] font-semibold text-gray-800 bg-white hover:bg-rose-50 hover:border-rose-200
+                       rounded-[18px] border border-gray-300 shadow-sm
                        disabled:bg-gray-50 disabled:text-gray-400 disabled:cursor-not-allowed disabled:shadow-none
                        transition-all duration-200"
             >
@@ -341,13 +341,13 @@ export default function Composer({
 
       {/* 최근 저장 문장 미리보기 - 포근한 느낌 */}
       {latestSentence && !hasResult && (
-        <div className="mt-8 p-6 bg-rose-50/30 rounded-[20px] border border-rose-100/50 shadow-sm">
-          <p className="text-sm text-rose-600 mb-2 font-medium">{t.recentSaved}</p>
+        <div className="mt-8 p-6 bg-rose-50/30 rounded-[18px] border border-rose-100/50 shadow-sm">
+          <p className="text-[13px] text-rose-600 mb-2 font-semibold">{t.recentSaved}</p>
           <p
-            className="text-base text-gray-800"
+            className="text-[15px] text-gray-900 font-normal"
             style={{
-              lineHeight: '1.7',
-              letterSpacing: '-0.02em',
+              lineHeight: '1.65',
+              letterSpacing: '-0.01em',
             }}
           >
             {latestSentence}
