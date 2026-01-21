@@ -11,7 +11,7 @@ export default function LanguageToggle() {
   };
 
   return (
-    <div className="flex items-center gap-1 bg-white rounded-2xl p-1 border border-gray-200">
+    <div className="flex items-center gap-1 bg-white rounded-2xl p-1 border border-gray-300">
       <button
         onClick={() => handleToggle('kr')}
         className={`px-3 py-1.5 text-sm font-medium rounded-xl transition-colors duration-200

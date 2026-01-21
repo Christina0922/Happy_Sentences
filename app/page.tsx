@@ -85,7 +85,7 @@ export default function Home() {
             <Link
               href="/library"
               className="py-2 px-4 text-sm font-medium text-gray-700 bg-white hover:bg-gray-50
-                       rounded-2xl border border-gray-200 transition-colors duration-200
+                       rounded-2xl border border-gray-300 transition-colors duration-200
                        whitespace-nowrap flex-shrink-0"
             >
               {t.libraryButton}
