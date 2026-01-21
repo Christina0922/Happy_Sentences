@@ -38,7 +38,7 @@ export default function Home() {
       
       // EN 모드에서 한글 검증
       if (language === 'en') {
-        const hasKorean = /[가-힣]/.test(data.gentle + data.clear + data.brave);
+        const hasKorean = /[가-힣]/.test(data.lines.gentle + data.lines.clear + data.lines.brave);
         if (hasKorean) {
           console.warn('[Home] ⚠️ Korean characters detected in EN mode result');
           setError('Generated sentences contain Korean characters. Please try again.');
