@@ -6,6 +6,12 @@
   --gradient-start: #f9f7f7;
   --gradient-middle: #faf8f5;
   --gradient-end: #f8f8f9;
+  
+  /* Primary 컬러 시스템: 따뜻한 rose/coral */
+  --primary: #f08080;        /* soft coral */
+  --primary-hover: #e56f6f;  /* darker coral */
+  --primary-light: #ffd4d4;  /* very light coral */
+  --primary-ring: #ffe8e8;   /* focus ring */
 }
 
 @theme inline {
@@ -64,6 +70,11 @@ body {
   50% {
     opacity: 0.8;
   }
+}
+
+/* Radial gradient utility */
+.bg-gradient-radial {
+  background: radial-gradient(circle at 50% 0%, var(--tw-gradient-stops));
 }
 
 .animate-fade-in {

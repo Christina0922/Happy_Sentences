@@ -224,7 +224,7 @@ export default function Composer({
   return (
     <div className="w-full max-w-2xl mx-auto px-4">
       <form onSubmit={handleSubmit} className="space-y-6">
-        {/* 입력 박스 */}
+        {/* 입력 박스 - 포근한 느낌 */}
         <div className="relative">
           <textarea
             ref={textareaRef}
@@ -233,10 +233,10 @@ export default function Composer({
             placeholder={t.inputPlaceholder}
             disabled={isLoading}
             rows={6}
-            className="w-full px-6 py-4 text-base bg-white border border-gray-200 rounded-2xl 
-                     focus:border-gray-300 focus:ring-2 focus:ring-gray-100 focus:outline-none resize-none
-                     disabled:bg-gray-50 disabled:text-gray-400 transition-colors
-                     placeholder:text-gray-400"
+            className="w-full px-7 py-5 text-base bg-white border border-gray-200 rounded-[20px]
+                     focus:border-rose-300 focus:ring-3 focus:ring-rose-50 focus:outline-none resize-none
+                     disabled:bg-gray-50 disabled:text-gray-400 transition-all duration-200
+                     placeholder:text-gray-500 shadow-sm"
             style={{
               lineHeight: '1.7',
               letterSpacing: '-0.02em',
@@ -253,16 +253,16 @@ export default function Composer({
 
         {/* 버튼 그룹: 2행 레이아웃 */}
         <div className="space-y-3">
-          {/* Row 1: Primary 버튼 (행복문장 만들기) */}
+          {/* Row 1: Primary 버튼 (행복문장 만들기) - 따뜻한 포인트 컬러 */}
           <button
             type="submit"
             disabled={isLoading || !input.trim()}
             className={`w-full h-12 px-6 text-base font-semibold text-white 
-                     bg-gray-800 hover:bg-gray-900
-                     rounded-2xl
-                     disabled:bg-gray-300 disabled:cursor-not-allowed 
-                     transition-colors duration-200
-                     ${shouldHighlightCreate ? 'ring-2 ring-gray-400 ring-offset-2' : ''}`}
+                     bg-gradient-to-r from-rose-400 to-rose-500 hover:from-rose-500 hover:to-rose-600
+                     rounded-2xl shadow-sm hover:shadow-md
+                     disabled:from-gray-300 disabled:to-gray-300 disabled:cursor-not-allowed disabled:shadow-none
+                     transition-all duration-200
+                     ${shouldHighlightCreate ? 'ring-2 ring-rose-300 ring-offset-2' : ''}`}
           >
             {isLoading ? (
               <span className="flex items-center justify-center gap-2">
@@ -295,38 +295,38 @@ export default function Composer({
 
           {/* Row 2: Secondary 버튼들 */}
           <div className="flex gap-3">
-            {/* 음성 입력 버튼 */}
+            {/* 음성 입력 버튼 - 상태 피드백 개선 */}
             <button
               type="button"
               onClick={handleVoiceInput}
               disabled={isLoading || !recognition.isAvailable()}
-              className={`flex-1 h-12 px-4 text-sm font-medium rounded-2xl transition-colors duration-200
+              className={`flex-1 h-12 px-4 text-sm font-medium rounded-2xl transition-all duration-200
                        ${recognitionState === 'listening' 
-                         ? 'bg-red-500 text-white' 
+                         ? 'bg-rose-500 text-white shadow-md border-2 border-rose-400' 
                          : recognitionState === 'processing'
-                         ? 'bg-blue-500 text-white'
-                         : 'text-gray-700 bg-white hover:bg-gray-50 border border-gray-200'
+                         ? 'bg-orange-500 text-white shadow-md border-2 border-orange-400'
+                         : 'text-gray-700 bg-white hover:bg-rose-50 hover:border-rose-200 border border-gray-200 shadow-sm'
                        }
-                       disabled:bg-gray-100 disabled:text-gray-400 disabled:cursor-not-allowed disabled:border-gray-200`}
+                       disabled:bg-gray-100 disabled:text-gray-400 disabled:cursor-not-allowed disabled:border-gray-200 disabled:shadow-none`}
               title={!recognition.isAvailable() ? t.voiceInputNotSupported : ''}
             >
               <span className="flex items-center justify-center gap-2">
-                <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                <svg className={`w-4 h-4 ${recognitionState === 'listening' ? 'animate-pulse' : ''}`} fill="currentColor" viewBox="0 0 20 20">
                   <path fillRule="evenodd" d="M7 4a3 3 0 016 0v4a3 3 0 11-6 0V4zm4 10.93A7.001 7.001 0 0017 8a1 1 0 10-2 0A5 5 0 015 8a1 1 0 00-2 0 7.001 7.001 0 006 6.93V17H6a1 1 0 100 2h8a1 1 0 100-2h-3v-2.07z" clipRule="evenodd" />
                 </svg>
                 <span className="hidden sm:inline">{getVoiceButtonText()}</span>
               </span>
             </button>
 
-            {/* 읽기 버튼 */}
+            {/* 읽기 버튼 - hover 시 따뜻한 피드백 */}
             <button
               type="button"
               onClick={handleReadClick}
               disabled={!hasResult || isLoading}
-              className="flex-1 h-12 px-4 text-sm font-medium text-gray-700 bg-white hover:bg-gray-50
-                       rounded-2xl border border-gray-200
-                       disabled:bg-gray-50 disabled:text-gray-400 disabled:cursor-not-allowed 
-                       transition-colors duration-200"
+              className="flex-1 h-12 px-4 text-sm font-medium text-gray-700 bg-white hover:bg-rose-50 hover:border-rose-200
+                       rounded-2xl border border-gray-200 shadow-sm
+                       disabled:bg-gray-50 disabled:text-gray-400 disabled:cursor-not-allowed disabled:shadow-none
+                       transition-all duration-200"
             >
               <span className="flex items-center justify-center gap-2">
                 <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
@@ -339,10 +339,10 @@ export default function Composer({
         </div>
       </form>
 
-      {/* 최근 저장 문장 미리보기 */}
+      {/* 최근 저장 문장 미리보기 - 포근한 느낌 */}
       {latestSentence && !hasResult && (
-        <div className="mt-8 p-5 bg-gray-50 rounded-xl border border-gray-100">
-          <p className="text-sm text-gray-500 mb-2">{t.recentSaved}</p>
+        <div className="mt-8 p-6 bg-rose-50/30 rounded-[20px] border border-rose-100/50 shadow-sm">
+          <p className="text-sm text-rose-600 mb-2 font-medium">{t.recentSaved}</p>
           <p
             className="text-base text-gray-800"
             style={{

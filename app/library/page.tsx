@@ -125,7 +125,12 @@ export default function LibraryPage() {
   };
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen relative">
+      {/* 상단 배경 빛 번짐 (따뜻한 분위기) */}
+      <div className="fixed top-0 left-0 right-0 h-96 -z-10 pointer-events-none">
+        <div className="absolute inset-0 bg-gradient-radial from-rose-50/40 via-orange-50/20 to-transparent"></div>
+      </div>
+      
       {/* 헤더 */}
       <header className="py-6 px-4 bg-white/80 backdrop-blur-sm border-b border-gray-100">
         <div className="max-w-3xl mx-auto flex items-center justify-between gap-4">
@@ -156,10 +161,10 @@ export default function LibraryPage() {
       {/* 메인 콘텐츠 */}
       <main className="py-12">
         <div className="max-w-3xl mx-auto px-4">
-          {/* 메시지 알림 */}
+          {/* 메시지 알림 - 따뜻한 피드백 */}
           {message && (
-            <div className="mb-4 p-3 bg-gray-800 text-white text-center rounded-2xl animate-fade-in">
-              <span className="text-sm">{message}</span>
+            <div className="mb-4 p-3 bg-gradient-to-r from-rose-500 to-rose-600 text-white text-center rounded-2xl animate-fade-in shadow-md">
+              <span className="text-sm font-medium">{message}</span>
             </div>
           )}
 
@@ -168,22 +173,22 @@ export default function LibraryPage() {
             <div className="flex gap-2">
               <button
                 onClick={() => setFilter('all')}
-                className={`py-2 px-4 text-sm font-medium rounded-2xl transition-colors duration-200
+                className={`py-2 px-4 text-sm font-medium rounded-2xl shadow-sm transition-all duration-200
                          ${
                            filter === 'all'
-                             ? 'bg-gray-800 text-white'
-                             : 'bg-white text-gray-700 border border-gray-200 hover:bg-gray-50'
+                             ? 'bg-gradient-to-r from-rose-400 to-rose-500 text-white shadow-md'
+                             : 'bg-white text-gray-700 border border-gray-200 hover:bg-rose-50 hover:border-rose-200'
                          }`}
               >
                 {t.allFilter}
               </button>
               <button
                 onClick={() => setFilter('favorites')}
-                className={`py-2 px-4 text-sm font-medium rounded-2xl transition-colors duration-200
+                className={`py-2 px-4 text-sm font-medium rounded-2xl shadow-sm transition-all duration-200
                          ${
                            filter === 'favorites'
-                             ? 'bg-gray-800 text-white'
-                             : 'bg-white text-gray-700 border border-gray-200 hover:bg-gray-50'
+                             ? 'bg-gradient-to-r from-rose-400 to-rose-500 text-white shadow-md'
+                             : 'bg-white text-gray-700 border border-gray-200 hover:bg-rose-50 hover:border-rose-200'
                          }`}
               >
                 {t.favoritesFilter}
@@ -193,13 +198,13 @@ export default function LibraryPage() {
             <button
               onClick={handlePlayMultiple}
               disabled={sentences.length === 0}
-              className={`py-2 px-4 text-sm font-medium rounded-2xl transition-colors duration-200
+              className={`py-2 px-4 text-sm font-medium rounded-2xl shadow-sm transition-all duration-200
                        ${
                          isPlaying
-                           ? 'bg-red-500 text-white'
-                           : 'bg-gray-800 text-white hover:bg-gray-900'
+                           ? 'bg-rose-500 text-white shadow-md border-2 border-rose-400'
+                           : 'bg-gradient-to-r from-rose-400 to-rose-500 text-white hover:from-rose-500 hover:to-rose-600 shadow-md'
                        }
-                       disabled:opacity-50 disabled:cursor-not-allowed`}
+                       disabled:opacity-50 disabled:cursor-not-allowed disabled:from-gray-300 disabled:to-gray-300`}
             >
               {isPlaying ? t.stopButton : t.continuousPlay}
             </button>
@@ -219,7 +224,7 @@ export default function LibraryPage() {
               {sentences.map((sentence) => (
                 <div
                   key={sentence.id}
-                  className="p-5 bg-white border border-gray-200 rounded-2xl hover:border-gray-300 transition-colors duration-200"
+                  className="p-6 bg-white border border-gray-200 rounded-[20px] shadow-sm hover:shadow-md hover:border-rose-200 transition-all duration-200"
                 >
                   {/* 날짜 & 즐겨찾기 */}
                   <div className="flex items-center justify-between mb-3">
@@ -255,16 +260,16 @@ export default function LibraryPage() {
                     <button
                       onClick={() => handleShare(sentence.text)}
                       className="flex-1 h-10 px-4 text-sm font-medium text-gray-700 
-                               bg-white hover:bg-gray-50 rounded-2xl border border-gray-200
-                               transition-colors duration-200"
+                               bg-white hover:bg-rose-50 hover:border-rose-200 rounded-2xl border border-gray-200 shadow-sm
+                               transition-all duration-200"
                     >
                       {t.shareButtonLib}
                     </button>
                     <button
                       onClick={() => handleDelete(sentence.id)}
                       className="h-10 px-4 text-sm font-medium text-white 
-                               bg-red-500 hover:bg-red-600 rounded-2xl
-                               transition-colors duration-200"
+                               bg-rose-500 hover:bg-rose-600 rounded-2xl shadow-sm hover:shadow-md
+                               transition-all duration-200"
                     >
                       {t.deleteButton}
                     </button>

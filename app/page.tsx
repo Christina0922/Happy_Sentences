@@ -63,7 +63,12 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen relative">
+      {/* 상단 배경 빛 번짐 (따뜻한 분위기) */}
+      <div className="fixed top-0 left-0 right-0 h-96 -z-10 pointer-events-none">
+        <div className="absolute inset-0 bg-gradient-radial from-rose-50/40 via-orange-50/20 to-transparent"></div>
+      </div>
+      
       {/* 헤더 */}
       <header className="py-6 px-4 bg-white/80 backdrop-blur-sm border-b border-gray-100">
         <div className="max-w-2xl mx-auto flex items-center justify-between gap-4">
