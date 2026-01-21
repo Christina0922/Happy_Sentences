@@ -117,43 +117,43 @@ export default function ResultCards({ result, onSaveSuccess }: ResultCardsProps)
     setPlayingVariant(variantToPlay);
     console.log('[ResultCards] Playing variant set:', variantToPlay);
     
-    // 개발 모드에서는 speakText 사용 (진단 기능 + 감정 표현)
-    if (process.env.NODE_ENV !== 'production') {
-      try {
-        const { speakText } = await import('@/src/lib/tts/speakText');
-        const success = await speakText(textToSpeak, language, cardType);
+    try {
+      // 강화된 진단 기능이 있는 speakText 사용 (개발/프로덕션 모두)
+      const { speakText, type TtsResult } = await import('@/src/lib/tts/speakText');
+      const result = await speakText(textToSpeak, language, cardType);
+      
+      if (!result.success) {
+        // 에러 타입에 따라 적절한 메시지 표시
+        let errorMessage = t.ttsGenericError;
         
-        if (!success) {
-          showMessage(t.readFailed);
+        switch (result.errorType) {
+          case 'not-supported':
+            errorMessage = t.ttsNotSupported;
+            break;
+          case 'no-voices':
+            errorMessage = t.ttsNoVoices;
+            break;
+          case 'webview-limit':
+            errorMessage = t.ttsWebViewLimit;
+            break;
+          case 'generic':
+          default:
+            errorMessage = t.ttsGenericError;
+            break;
         }
-        setPlayingVariant(null);
-      } catch (error) {
-        console.error('[ResultCards] ❌ speakText exception:', error);
-        setPlayingVariant(null);
-        showMessage(t.readFailed);
-      }
-    } else {
-      // 프로덕션에서는 기존 basicTts 사용
-      try {
-        await basicTts.speak(textToSpeak, language, {
-          onStart: () => {
-            console.log('[ResultCards] ✅ TTS started successfully');
-          },
-          onEnd: () => {
-            console.log('[ResultCards] ✅ TTS ended successfully');
-            setPlayingVariant(null);
-          },
-          onError: (error) => {
-            console.error('[ResultCards] ❌ Basic TTS onError:', error);
-            setPlayingVariant(null);
-            showMessage(t.readFailed);
-          },
+        
+        showMessage(errorMessage);
+        console.error('[ResultCards] ❌ TTS failed:', {
+          errorType: result.errorType,
+          errorMessage: result.errorMessage,
         });
-      } catch (error) {
-        console.error('[ResultCards] ❌ Basic TTS exception:', error);
-        setPlayingVariant(null);
-        showMessage(t.readFailed);
       }
+      
+      setPlayingVariant(null);
+    } catch (error) {
+      console.error('[ResultCards] ❌ speakText exception:', error);
+      setPlayingVariant(null);
+      showMessage(t.ttsGenericError);
     }
   };
 

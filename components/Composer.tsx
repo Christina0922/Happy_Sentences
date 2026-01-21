@@ -55,38 +55,40 @@ export default function Composer({
   const handleBasicTts = async () => {
     if (!latestSentence) return;
     
-    // 개발 모드에서는 speakText 사용 (진단 기능)
-    if (process.env.NODE_ENV !== 'production') {
-      try {
-        const { speakText } = await import('@/src/lib/tts/speakText');
-        const success = await speakText(latestSentence, language);
+    try {
+      // 강화된 진단 기능이 있는 speakText 사용 (개발/프로덕션 모두)
+      const { speakText, type TtsResult } = await import('@/src/lib/tts/speakText');
+      const result = await speakText(latestSentence, language);
+      
+      if (!result.success) {
+        // 에러 타입에 따라 적절한 메시지 표시
+        let errorMessage = t.ttsGenericError;
         
-        if (!success) {
-          alert(t.readFailed);
+        switch (result.errorType) {
+          case 'not-supported':
+            errorMessage = t.ttsNotSupported;
+            break;
+          case 'no-voices':
+            errorMessage = t.ttsNoVoices;
+            break;
+          case 'webview-limit':
+            errorMessage = t.ttsWebViewLimit;
+            break;
+          case 'generic':
+          default:
+            errorMessage = t.ttsGenericError;
+            break;
         }
-      } catch (error) {
-        console.error('[Composer] ❌ speakText exception:', error);
-        alert(t.readFailed);
-      }
-    } else {
-      // 프로덕션에서는 기존 basicTts 사용
-      try {
-        await basicTts.speak(latestSentence, language, {
-          onStart: () => {
-            console.log('[Composer] TTS started');
-          },
-          onEnd: () => {
-            console.log('[Composer] TTS ended');
-          },
-          onError: (error) => {
-            console.error('[Composer] ❌ Basic TTS failed:', error);
-            alert(t.readFailed);
-          },
+        
+        alert(errorMessage);
+        console.error('[Composer] ❌ TTS failed:', {
+          errorType: result.errorType,
+          errorMessage: result.errorMessage,
         });
-      } catch (error) {
-        console.error('[Composer] ❌ Basic TTS exception:', error);
-        alert(t.readFailed);
       }
+    } catch (error) {
+      console.error('[Composer] ❌ speakText exception:', error);
+      alert(t.ttsGenericError);
     }
   };
 

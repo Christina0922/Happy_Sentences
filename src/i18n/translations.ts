@@ -90,6 +90,15 @@ export interface Translations {
   adPassGranted: string;
   adPassExpired: string;
   adPassRemaining: string;
+
+  // TTS Error Messages (강화된 에러 안내)
+  ttsNotSupported: string;
+  ttsNoVoices: string;
+  ttsNoVoicesRetry: string;
+  ttsWebViewLimit: string;
+  ttsGenericError: string;
+  ttsCheckingVoices: string;
+  ttsRetry: string;
 }
 
 export const translations: Record<Language, Translations> = {
@@ -183,6 +192,15 @@ export const translations: Record<Language, Translations> = {
     adPassGranted: '광고 시청 완료! 30분간 고급 음성을 사용할 수 있습니다.',
     adPassExpired: '광고 1회권이 만료되었습니다.',
     adPassRemaining: '남은 시간: ',
+
+    // TTS Error Messages (강화된 에러 안내)
+    ttsNotSupported: '이 환경에서는 읽어주기를 지원하지 않습니다.',
+    ttsNoVoices: '사용 가능한 음성이 없습니다. 브라우저나 앱 설정을 확인해주세요.',
+    ttsNoVoicesRetry: '음성 목록을 불러오는 중입니다. 잠시 후 다시 시도해주세요.',
+    ttsWebViewLimit: '앱에서는 읽어주기가 제한될 수 있습니다. 웹 브라우저를 사용해보세요.',
+    ttsGenericError: '읽어주기에 실패했습니다. 다시 시도해주세요.',
+    ttsCheckingVoices: '음성 확인 중...',
+    ttsRetry: '다시 시도',
   },
 
   en: {
@@ -275,5 +293,14 @@ export const translations: Record<Language, Translations> = {
     adPassGranted: 'Ad complete! Premium voice is available for 30 minutes.',
     adPassExpired: 'Ad pass expired.',
     adPassRemaining: 'Time remaining: ',
+
+    // TTS Error Messages (강화된 에러 안내)
+    ttsNotSupported: 'Read aloud is not supported in this environment.',
+    ttsNoVoices: 'No voices available. Please check your browser or app settings.',
+    ttsNoVoicesRetry: 'Loading voices... Please try again in a moment.',
+    ttsWebViewLimit: 'Read aloud may be limited in the app. Try using a web browser.',
+    ttsGenericError: 'Failed to read aloud. Please try again.',
+    ttsCheckingVoices: 'Checking voices...',
+    ttsRetry: 'Retry',
   },
 };
